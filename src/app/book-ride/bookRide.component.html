@@ -1,0 +1,93 @@
+<div class="example-viewer">
+    <div class="docs-example-viewer-wrapper">
+      <div class="docs-example-viewer-title">
+        <div class="docs-example-viewer-title-spacer">
+          Ride Details
+        </div>
+      </div>
+      <div class="docs-example-viewer-source">
+          
+          <form class="art-pad30">
+              <mat-grid-list cols="2" rowHeight="100px">
+                  <mat-grid-tile>
+                      <mat-form-field style="width:80%;">
+                        <input matInput ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" placeholder="Enter Source.." (onAddressChange)="handleAddressChange($event)"/>
+                      </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile style="margin-left: 2%">
+                      <mat-form-field style="width:80%;">
+                        <input matInput ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" placeholder="Enter Destination.." (onAddressChange)="handleAddressChange1($event)"/>
+                      </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>
+                <span style="margin-left: 5%">
+                  <u>Enter Ride Type:</u>                
+                </span>
+                <mat-grid-list style="margin-left: 5%" cols="2" rowHeight="100px">
+                  <div>
+                      <div class="md-radio md-radio-inline">
+                        <input id="3" type="radio" name="g2" checked>
+                        <label for="3">Single Ride</label>
+                      </div>
+                      <div class="md-radio md-radio-inline">
+                        <input id="3" type="radio" name="g2" checked>
+                        <label for="3">Shared Ride</label>
+                      </div>                      
+                    </div>
+                </mat-grid-list>  
+                <button mat-stroked-button color="primary" (click)="findCabs()">Find Cabs</button>            
+            </form>
+      </div>
+    </div>
+</div>
+<div [hidden]="findNotExecYet" class="example-viewer" style="height: 100%">
+    <div class="docs-example-viewer-wrapper">
+      <div class="docs-example-viewer-title">
+        <div class="docs-example-viewer-title-spacer">
+          Map
+        </div>
+      </div>
+      <div class="docs-example-viewer-source">
+        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="15">
+          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>          
+        </agm-map>
+      </div>
+    </div>
+</div>
+<div [hidden]="!findNotExecYet" class="example-viewer" style="height: 100%">  
+  <div style="margin-top: 10%;margin-left: 10%;width: 80%" [hidden]="progressBar">
+  <!-- <mat-spinner></mat-spinner> -->
+
+    <mat-progress-bar mode="query"></mat-progress-bar>  
+  </div>  
+  <div [hidden]="!progressBar" style="margin-left: 35%;">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Christopher Nicolas</mat-card-title>
+        <mat-card-subtitle>Chicago, Illinois</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image src="http://d3c6bloycjddy.cloudfront.net/wp-content/uploads/2018/08/pic-1-1.jpg" alt="Photo of a Shiba Inu">
+      <mat-card-content>
+        <h3>Christopher Nicolas</h3><p>Rating: &nbsp;<span style="font-weight: bolder;">4.4 / 5.0</span></p>
+        <div style="margin-top: 5%" class="row">
+          <div class=" col col-md-6">
+            Car: <span style="font-weight: bolder">Jeep Cherokee</span>                    
+          </div>
+          <div class="col col-md-6">
+            Number: <span style="font-weight: bolder">GTJ 683</span>                    
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+          <button mat-button class="btn btn-success" (click)="confirmBooking()">Confirm Booking</button>
+          <button mat-button class="btn btn-warning">Find Other Driver</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<!--
+  https://blog.angular-university.io/angular-material-data-table/
+  https://github.com/angular/material2/tree/master/src/material-examples/paginator-configurable
+-->
+<!-- Button trigger modal -->

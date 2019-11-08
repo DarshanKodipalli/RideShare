@@ -1,0 +1,39 @@
+<!-- https://angular.io/tutorial/toh-pt5 -->
+<header style="position:relative;z-index:1;">
+  <mat-toolbar color="primary" class="mat-elevation-z6">
+      <button mat-button><mat-icon>directions_car</mat-icon> RideShare</button>
+      <ng-container *ngIf="role=='Customer'; else elseTemplate">
+        <button mat-button>Customer</button>
+      </ng-container>
+      <ng-template #elseTemplate>
+          <ng-container *ngIf="role=='Admin'">
+            <button mat-button>Admin</button>
+          </ng-container>
+      </ng-template>
+      
+      <span class="example-spacer"></span>
+            <span style="font-size: 16px">
+              <button mat-button><mat-icon>my_location</mat-icon> <span>&nbsp;{{city}},{{state}}</span></button>
+            </span>
+      <button mat-button style="margin-left: 2%">{{actualDate}}</button>
+      <button style="margin-left: 2%" mat-button [matMenuTriggerFor]="notifications"><mat-icon matBadge="3" matBadgeColor="accent" matBadgePosition="above before">notifications</mat-icon></button>
+      <mat-menu #notifications="matMenu">
+        <button class="nav-link" routerLink="/order" mat-menu-item (click)="hideMenu()">ORDER#12345876 created</button>
+        <mat-divider></mat-divider>
+        <button class="nav-link" routerLink="/invoice" mat-menu-item (click)="hideMenu()">ORDER#12345876 is requested<br> for approval</button>
+        <mat-divider></mat-divider>
+        <button class="nav-link" routerLink="/payment" mat-menu-item (click)="hideMenu()">INVOICE#123456 is approved</button>
+        <mat-divider></mat-divider>
+        <button class="nav-link" routerLink="/bulkupload" mat-menu-item (click)="hideMenu()">PAY#1234587 Payment approved</button>
+        <mat-divider></mat-divider>
+        <button class="nav-link" routerLink="/bulkupload" mat-menu-item (click)="hideMenu()">more</button>
+      </mat-menu>
+      <button mat-button [matMenuTriggerFor]="profile"><mat-icon>account_circle</mat-icon> {{user}} <mat-icon>arrow_drop_down</mat-icon></button>
+        <mat-menu #profile="matMenu">
+          <button class="nav-link" routerLink="/order" mat-menu-item (click)="changeProfile()"><mat-icon>perm_identity</mat-icon>Update Profile</button>
+          <button class="nav-link" routerLink="/invoice" mat-menu-item (click)="changePassword()"><mat-icon>lock</mat-icon>Change Password</button>
+          <button (click)="logout()" mat-menu-item><mat-icon>power_settings_new</mat-icon>Logout</button>
+        </mat-menu>
+        <button mat-button><mat-icon matTooltip="Info">help</mat-icon></button>
+    </mat-toolbar>
+</header>
