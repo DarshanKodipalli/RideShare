@@ -1,10 +1,14 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input,  ElementRef, NgZone} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatSort, MatTableDataSource} from '@angular/material';
 import {Subject} from 'rxjs/Subject';
 import Swal from 'sweetalert2'
 import { Router } from '@angular/router';
 import { RestService } from '../services/rest.service';
+import { MapsAPILoader, MouseEvent } from '@agm/core';
+import {} from '@types/googlemaps';
+// import {} from 'googlemaps';
+declare var google: any;
 
 export interface Rides {
   source: string;
@@ -22,41 +26,57 @@ const ELEMENT_DATA: Rides[] = [
 export class BookRideComponent implements OnInit {
 
 
-  displayedColumns: string[] = ['select', 'source', 'destination'];
-  dataSource:any = new MatTableDataSource<Rides>(ELEMENT_DATA);
-  selection = new SelectionModel<Rides>(true, []);
-  lat = 41.834570;
-  lng = -87.631800;
+  public displayedColumns: string[] = ['select', 'source', 'destination'];
+  public dataSource:any = new MatTableDataSource<Rides>(ELEMENT_DATA);
+  public selection = new SelectionModel<Rides>(true, []);
+  // lat = 41.834570;
+  // lng = -87.631800;
+  public lat: any;
+  public lng : any;
+  public latitude : any;
+  public longitude: any;
+  public origin: any;
+  public destination: any;
   public sourceLat;
   public sourceLong;
   public destLat;
   public destLong;
   public progressBar:boolean;
-  @Input() changing: Subject<boolean>;
-
-  loadGridSpinner:boolean = true;
-
-  public handleAddressChange(event) {
-    console.log(event.formatted_address);
-    this.sourceLat = event.formatted_address.geometry.location.lat();
-    this.sourceLong = event.formatted_address.geometry.location.long();    
-    console.log(this.sourceLat);
-    console.log(this.sourceLong);
-  }
-  public handleAddressChange1(event){
-    console.log(event);    
-    this.destLat = event.formatted_address.geometry.location.lat();
-    this.destLong = event.formatted_address.geometry.location.long();    
-    console.log(this.destLat);
-    console.log(this.destLong);
-  }
+  public loadGridSpinner:boolean = true;
   public findNotExecYet:boolean = false;
-  @ViewChild(MatSort) sort: MatSort;
-  constructor(private http: RestService, private route: Router) { }
+
   private fileUrl:string
   private role:String;
   private createInvoice:any = {};
   private searchParams:any = {};
+  private geoCoder;
+  zoom: number;
+  address: string;
+  location1: any;
+  location2: any;
+  place: any;
+
+  @Input() changing: Subject<boolean>;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('search')
+  public searchElementRef: ElementRef;
+  @ViewChild('searchs')
+  public searchDestElementRef: ElementRef;
+  @ViewChild('maps')
+  public mapsElementRef: ElementRef;
+  
+
+  constructor(private http: RestService, private route: Router,private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone) { 
+    // if (navigator)
+    // {
+    // navigator.geolocation.getCurrentPosition( pos => {
+    //     this.lng = +pos.coords.longitude;
+    //     this.lat = +pos.coords.latitude;
+    //   });
+    // }
+   }
+
   ngOnInit() {
     var data = [
       {
@@ -131,12 +151,128 @@ export class BookRideComponent implements OnInit {
         "totalBookingCost" : "$ 4.88",
         "driver" : "Steve Henry"
       }];
+      this.zoom = 15;
+      // let map = new google.maps.Map(document.getElementById('map'))
+      // var trafficLayer = new google.maps.TrafficLayer();
+      // trafficLayer.setMap(map);
 
-      this.dataSource = new MatTableDataSource<Rides>(data);      
+      this.dataSource = new MatTableDataSource<Rides>(data);  
+      this.load(); 
   }
+  load(){
+    this.mapsAPILoader.load().then(() => {
+      this.setCurrentLocation();
+      this.geoCoder = new google.maps.Geocoder;
+      // console.log('gencoder ', this.geoCoder)
+
+      let autocompleteSource = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+        types: ['geocode']
+      });
+      autocompleteSource.addListener("place_changed", () => {
+        this.ngZone.run(() => {
+          //get the place result
+          let place: google.maps.places.PlaceResult = autocompleteSource.getPlace();
+ 
+          //verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+ 
+          //set latitude, longitude and zoom
+          // this.latitude = place.geometry.location.lat();
+          this.location1 = place.geometry.location;
+          // this.zoom = 12;
+        });
+      });
+      let autocompleteDestination = new google.maps.places.Autocomplete(this.searchDestElementRef.nativeElement, {
+        types: ['geocode']
+      });
+      autocompleteDestination.addListener("place_changed", () => {
+        this.ngZone.run(() => {
+          //get the place result
+          let place: google.maps.places.PlaceResult = autocompleteDestination.getPlace();
+ 
+          //verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+ 
+          //set latitude, longitude and zoom
+          // this.latitude = place.geometry.location.lat();
+          this.location2 = place.geometry.location;
+          // this.zoom = 12;
+        });
+      });
+    });
+  }
+
+  private setCurrentLocation() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        this.getAddress(this.latitude, this.longitude);
+      });
+    }
+    let map = new google.maps.TrafficLayer(this.mapsElementRef.nativeElement,{center: {lat: this.latitude, lng: this.longitude}});
+      var trafficLayer = new google.maps.TrafficLayer()
+      trafficLayer.setMap(map);
+  }
+  markerDragEnd($event: MouseEvent) {
+    console.log($event);
+    this.latitude = $event.coords.lat;
+    this.longitude = $event.coords.lng;
+    this.getAddress(this.latitude, this.longitude);
+  }
+  
+  markerClicked(lat,lng) {
+    // console.log('clicked');
+    this.place = {lat:lat,lng: lng};
+    console.log(this.place);
+  }
+  getAddress(latitude, longitude) {
+    this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
+      console.log(results);
+      console.log(status);
+      if (status === 'OK') {
+        if (results[0]) {
+          // this.zoom = 12;
+          this.address = results[0].formatted_address;
+        } else {
+          window.alert('No results found');
+        }
+      } else {
+        window.alert('Geocoder failed due to: ' + status);
+      }
+ 
+    }); 
+  }
+
+  // handleAddressChange(event) {
+  //   console.log(event);
+  //   // console.log(event.geometry.location);
+  //   // console.log(event.formatted_address);
+  //   this.sourceLat = event.formatted_address.geometry.location;
+  //   this.sourceLong = event.formatted_address.geometry.location.long();    
+  //   console.log(this.sourceLat);
+  //   console.log(this.sourceLong);
+  // }
+  // handleAddressChange1(event){
+  //   console.log(event);   
+  //   this.destLat = event.formatted_address.geometry.location;
+  //   this.destLong = event.formatted_address.geometry.location.long();    
+  //   // console.log(this.destLat);
+  //   // console.log(this.destLong);
+  // }
   findCabs(){
-    this.progressBar = false;
-    this.findNotExecYet = true;
+    this.origin = {};
+    this.destination = {};
+    console.log(this.location1, this.location2)
+    this.origin = this.location1;
+    this.destination = this.location2;
+    // this.progressBar = false;
+    // this.findNotExecYet = true;
+    this.zoom = 18;
     setTimeout(() => {
       this.progressBar=true;
     }, 5000);    

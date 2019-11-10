@@ -1,29 +1,31 @@
-<div class="example-viewer">
-    <div class="docs-example-viewer-wrapper">
-      <div class="docs-example-viewer-title">
+<div class="example-viewer details-form">
+    <div class="docs-example-viewer-wrapper" style="background:#fff">
+      <!--<div class="docs-example-viewer-title">
         <div class="docs-example-viewer-title-spacer">
           Ride Details
         </div>
-      </div>
+      </div>-->
       <div class="docs-example-viewer-source">
           
-          <form class="art-pad30">
-              <mat-grid-list cols="2" rowHeight="100px">
-                  <mat-grid-tile>
-                      <mat-form-field style="width:80%;">
-                        <input matInput ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" placeholder="Enter Source.." (onAddressChange)="handleAddressChange($event)"/>
+          <form class="art-pad10">
+              <div style="padding:20px;">
+                     <mat-form-field style="width:100%;">
+                        <input matInput (keydown.enter)="$event.preventDefault()" placeholder="Source" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search/>
                       </mat-form-field>
-                  </mat-grid-tile>
-                  <mat-grid-tile style="margin-left: 2%">
-                      <mat-form-field style="width:80%;">
+                      <mat-form-field style="width:100%;">
+                        <input matInput type="text" (keydown.enter)="$event.preventDefault()" placeholder="Destination" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #searchs/>
+                      </mat-form-field>
+                      <!--<mat-form-field style="width:80%;">
                         <input matInput ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" placeholder="Enter Destination.." (onAddressChange)="handleAddressChange1($event)"/>
                       </mat-form-field>
-                  </mat-grid-tile>
-                </mat-grid-list>
+                      <mat-form-field style="width:80%;">
+                        <input matInput ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" placeholder="Enter Destination.." (onAddressChange)="handleAddressChange($event)"/>
+                      </mat-form-field>-->
+                </div>
                 <span style="margin-left: 5%">
                   <u>Enter Ride Type:</u>                
                 </span>
-                <mat-grid-list style="margin-left: 5%" cols="2" rowHeight="100px">
+                <mat-grid-list style="margin-left: 5%" cols="2">
                   <div>
                       <div class="md-radio md-radio-inline">
                         <input id="3" type="radio" name="g2" checked>
@@ -35,21 +37,25 @@
                       </div>                      
                     </div>
                 </mat-grid-list>  
-                <button mat-stroked-button color="primary" (click)="findCabs()">Find Cabs</button>            
+                <div style="text-align:center;margin-bottom:20px;"><button mat-raised-button color="primary" (click)="findCabs()">Find Cabs</button></div>            
             </form>
       </div>
     </div>
 </div>
-<div [hidden]="findNotExecYet" class="example-viewer" style="height: 100%">
-    <div class="docs-example-viewer-wrapper">
-      <div class="docs-example-viewer-title">
+<div [hidden]="findNotExecYet" class="example-viewer map_block" style="height: 100%">
+    <div class="docs-example-viewer-wrapper" style="background:#fff">
+      <!--<div class="docs-example-viewer-title">
         <div class="docs-example-viewer-title-spacer">
           Map
         </div>
-      </div>
-      <div class="docs-example-viewer-source">
-        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="15">
-          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>          
+      </div>-->
+      <div class="docs-example-viewer-source" id='map'>
+        <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [fullscreenControl]='true' [mapTypeControl]='true' [scaleControl]='true' #maps>
+          <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)" (markerClick)="markerClicked(latitude,longitude)">
+            <!--<agm-info-window>{{place.lat}}, {{place.lng}}</agm-info-window>-->
+          </agm-marker>
+          <agm-transit-layer></agm-transit-layer>
+          <agm-direction [origin]="origin" [destination]="destination"></agm-direction>     
         </agm-map>
       </div>
     </div>
