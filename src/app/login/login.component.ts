@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
       loginData.state = "Illinois";
     }
     localStorage.setItem("login",JSON.stringify(loginData));
-    this.router.navigate(['/bookRide']);
+    this.router.navigate(['/dashboard']);
 /*      loginData.role = "Customer";
       loginData.city = "Chicago";
       loginData.state = "Illinois";

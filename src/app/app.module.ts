@@ -15,6 +15,7 @@ import {
 } from '@angular/material';
 
 import { AgmCoreModule, MapsAPILoader } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 
 import { AppComponent } from './app.component';
@@ -45,9 +46,10 @@ import { CreateDriversComponent } from './createDrivers/drivers-create';
   ],
   imports: [
     AgmCoreModule.forRoot({
-      apiKey : '',
+      apiKey : 'AIzaSyBuJOssBr5xuExQvIigYzLG1nui4AF8TEg',
       libraries : ['geometry'] 
     }),
+    AgmDirectionModule,
     GooglePlaceModule,
     BrowserModule,
     BrowserAnimationsModule,

@@ -1,6 +1,6 @@
 <!-- https://angular.io/tutorial/toh-pt5 -->
 <header style="position:relative;z-index:1;">
-  <mat-toolbar color="primary" class="mat-elevation-z6">
+  <mat-toolbar color="primary" class="mat-elevation-z6" style="height: auto!important;padding:12px 0;box-shadow:none;">
       <button mat-button><mat-icon>directions_car</mat-icon> RideShare</button>
       <ng-container *ngIf="role=='Customer'; else elseTemplate">
         <button mat-button>Customer</button>
