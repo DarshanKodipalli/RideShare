@@ -6,9 +6,8 @@
 		</attributes>
 	</classpathentry>
     <classpathentry kind="src" path="WEB-INF/src"/>
-    <classpathentry exported="true" kind="lib" path="WEB-INF/lib/json-simple-1.1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="WEB-INF/lib/gson-2.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="WEB-INF/lib/mysql-jdbc-5-bin.jar"/>
-	<classpathentry exported="true" kind="lib" path="WEB-INF/lib/servlet-api.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
+	<classpathentry exported="true" kind="lib" path="WEB-INF/lib/servlet-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="WEB-INF/lib/mysql-jdbc-5-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="WEB-INF/lib/gson-2.6.2.jar"/>
 </classpath>

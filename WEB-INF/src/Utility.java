@@ -23,8 +23,8 @@ import com.google.gson.JsonObject;
 // Utility class with helper methods for the webapp
 public class Utility extends HttpServlet {
     private static final long serialVersionUID = 2L;
-    private static String TOMCAT_HOME = System.getProperty("catalina.home");
-    private static String HOME_DIR = Paths.get(TOMCAT_HOME, "webapps", "rideshare").toString();
+    private static final String TOMCAT_HOME = System.getProperty("catalina.home");
+    private static final String HOME_DIR = Paths.get(TOMCAT_HOME, "webapps", "rideshare").toString();
 
     private HttpServletRequest request;
     private PrintWriter printWriter;
@@ -68,7 +68,7 @@ public class Utility extends HttpServlet {
     private String htmlToString(String file) {
         String result = "";
         try {
-            result = new String(Files.readAllBytes(Paths.get(HOME_DIR, file)));
+            result = new String(Files.readAllBytes(Paths.get(HOME_DIR, "dist", file)));
         } catch (Exception e) {
             e.printStackTrace();
             result = "<h1>Internal Server Error</h1>";

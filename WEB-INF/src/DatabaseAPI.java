@@ -37,7 +37,7 @@ public class DatabaseAPI {
 
     private void connectDatabase() throws SQLException {
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.jdbc.Driver");
         } catch (Exception e) {
             e.printStackTrace();
             throw new SQLException("Unable to instantiate JDBC Driver");
