@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+    <classpathentry kind="src" path="WEB-INF/src"/>
+    <classpathentry exported="true" kind="lib" path="WEB-INF/lib/json-simple-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="WEB-INF/lib/gson-2.6.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="WEB-INF/lib/mysql-jdbc-5-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="WEB-INF/lib/servlet-api.jar"/>
+	<classpathentry kind="output" path="WEB-INF/classes"/>
+</classpath>
