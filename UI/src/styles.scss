@@ -1,0 +1,67 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+
+html, body{
+  margin: 0;
+  font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+}
+
+.mat-button, .mat-fab, .mat-flat-button, .mat-icon-button, .mat-mini-fab, .mat-raised-button, .mat-stroked-button
+, .mat-form-field  {
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.example-icon {
+  padding: 0 14px;
+  }
+  
+  .example-spacer {
+  flex: 1 1 auto;
+  }
+  .example-viewer{
+    padding:5px;
+  }
+  .example-viewer .docs-example-viewer-wrapper {
+    border: 1px solid rgba(0,0,0,.03);
+    border-left:2px solid rgba(0,0,0,.03);
+    border-right:2px solid rgba(0,0,0,.03);
+    border-bottom:2px solid rgba(0,0,0,.03);
+    box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
+    /*box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);*/
+    margin: 4px;
+    background-color: rgba(0,0,0,.1);
+    /*background-color:black;
+     *  background-color: rgba(0,0,0,.03);
+     */
+}
+.docs-example-viewer-source{
+  background-color:#fff;
+}
+.docs-example-viewer-title {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 8px 20px;
+    
+}
+
+.docs-example-viewer-title-spacer{
+    flex: 1 1 auto;
+    /*color:white;*/
+    color: rgba(0,0,0,.54);
+    
+}
+
+.example-viewer .docs-example-viewer-title {
+    color: rgba(0,0,0,.54);
+    /*color:white;*/
+    background: rgba(0,0,0,.03);
+    position:relative;
+    z-index:1;
+    box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
+}

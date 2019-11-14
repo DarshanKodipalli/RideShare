@@ -1,0 +1,9 @@
+<mat-progress-bar *ngIf="loadSpinner" color="accent" mode="indeterminate"></mat-progress-bar>
+<mat-spinner *ngIf="loadSpinner" color="accent" diameter="25" style="z-index:2;position:absolute;"></mat-spinner>
+<app-header *ngIf="loggedIn"></app-header>
+<section>
+  <app-nav *ngIf="loggedIn"></app-nav>
+  <router-outlet></router-outlet>
+</section>
+
+
