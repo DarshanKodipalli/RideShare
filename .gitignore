@@ -4,3 +4,4 @@ node_modules/
 *.pyc
 __pycahce__/
 *trips_normalized.csv
+.ipynb_checkpoints/
