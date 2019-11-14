@@ -3,3 +3,4 @@ node_modules/
 .idea/
 *.pyc
 __pycahce__/
+*trips_normalized.csv
