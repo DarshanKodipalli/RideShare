@@ -50,6 +50,8 @@ export class BookRideComponent implements OnInit {
   private createInvoice:any = {};
   private searchParams:any = {};
   private geoCoder;
+  private isTracking:boolean = false;
+
   zoom: number;
   address: string;
   location1: any;
@@ -247,23 +249,20 @@ export class BookRideComponent implements OnInit {
  
     }); 
   }
-
-  // handleAddressChange(event) {
-  //   console.log(event);
-  //   // console.log(event.geometry.location);
-  //   // console.log(event.formatted_address);
-  //   this.sourceLat = event.formatted_address.geometry.location;
-  //   this.sourceLong = event.formatted_address.geometry.location.long();    
-  //   console.log(this.sourceLat);
-  //   console.log(this.sourceLong);
-  // }
-  // handleAddressChange1(event){
-  //   console.log(event);   
-  //   this.destLat = event.formatted_address.geometry.location;
-  //   this.destLong = event.formatted_address.geometry.location.long();    
-  //   // console.log(this.destLat);
-  //   // console.log(this.destLong);
-  // }
+  trackMe(){
+      for(var i=0;i<20;i++){
+          console.log("trackMeCalled")
+          if (navigator.geolocation) {
+            this.isTracking = true;
+            navigator.geolocation.watchPosition((position) => {
+              console.log(position);
+              this.markerClicked(position.coords.latitude, position.coords.longitude);
+            });
+          } else {
+            alert("Geolocation is not supported by this browser.");
+          }    
+      }
+  }  
   findCabs(){
     this.origin = {};
     this.destination = {};
