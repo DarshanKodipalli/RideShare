@@ -13076,7 +13076,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">joblib</span> <span class="k">import</span> <span class="n">load</span>
@@ -13089,7 +13089,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">&quot;fare_model.lzma&quot;</span><span class="p">)</span>
@@ -13102,14 +13102,15 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">user_data</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">[</span><span class="mi">801</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">801</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">250</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">345</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+    <span class="p">[</span><span class="mf">801.0</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">801.0</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">250.25</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">347.41</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">1800.12</span><span class="p">,</span> <span class="mf">7.28</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 <span class="p">]</span>
 </pre></div>
 
@@ -13120,10 +13121,19 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">user_data</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">user_data</span><span class="p">:</span>
+    <span class="n">is_pooled</span> <span class="o">=</span> <span class="s2">&quot;YES&quot;</span> <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;NO&quot;</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="n">f</span><span class="s2">&quot;DURATION=</span><span class="si">{data[0]:.2f}</span><span class="s2"> mins, &quot;</span>
+        <span class="n">f</span><span class="s2">&quot;DISTANCE=</span><span class="si">{data[1]:.2f}</span><span class="s2"> miles, &quot;</span>
+        <span class="n">f</span><span class="s2">&quot;IS_POOLED=</span><span class="si">{is_pooled}</span><span class="s2">, &quot;</span>
+        <span class="n">f</span><span class="s2">&quot;TRIPS_IN_POOL=</span><span class="si">{data[3]}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">data</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Predicted Fare=$</span><span class="si">{pred[0]:.2f}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13136,30 +13146,29 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[6]:</div>
+    <div class="prompt"></div>
 
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>DURATION=801.00 mins, DISTANCE=3.20 miles, IS_POOLED=NO, TRIPS_IN_POOL=1
+Predicted Fare=$11.34
 
+DURATION=801.00 mins, DISTANCE=3.20 miles, IS_POOLED=YES, TRIPS_IN_POOL=2
+Predicted Fare=$7.43
 
-<div class="output_text output_subarea output_execute_result">
-<pre>array([11.33612976,  7.42676163,  7.91064491,  3.89534813])</pre>
+DURATION=250.25 mins, DISTANCE=1.20 miles, IS_POOLED=NO, TRIPS_IN_POOL=1
+Predicted Fare=$7.91
+
+DURATION=347.41 mins, DISTANCE=1.50 miles, IS_POOLED=YES, TRIPS_IN_POOL=4
+Predicted Fare=$3.90
+
+DURATION=1800.12 mins, DISTANCE=7.28 miles, IS_POOLED=NO, TRIPS_IN_POOL=1
+Predicted Fare=$19.82
+
+</pre>
+</div>
 </div>
 
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
 </div>
 </div>
 
