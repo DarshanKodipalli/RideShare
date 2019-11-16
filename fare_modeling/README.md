@@ -94,6 +94,6 @@ for data in user_data:
 
 **Maneesh Divana**
 
-**📧 [mdivana@hawk.iit.edu](mdivana@hawk.iit.edu) ⎟ [maneeshd77@gmail.com](maneeshd77@gmail.com)**
+**📧 [mdivana@hawk.iit.edu](mailto:mdivana@hawk.iit.edu) ◆ [maneeshd77@gmail.com](mailto:maneeshd77@gmail.com)**
 
 -----
