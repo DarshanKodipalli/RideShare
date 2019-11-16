@@ -109,6 +109,7 @@ public class DatabaseAPI {
                 "    cancel_reason VARCHAR(64) DEFAULT NULL,\n" +
                 "    `distance` DOUBLE,\n" +
                 "    price DOUBLE,\n" +
+                "    zipcode VARCHAR(8),\n"
                 "    FOREIGN KEY(customer) REFERENCES USERS(username) ON UPDATE CASCADE ON DELETE CASCADE,\n" +
                 "    FOREIGN KEY(driver) REFERENCES DRIVERS(username) ON UPDATE CASCADE ON DELETE CASCADE\n" +
                 ");"
