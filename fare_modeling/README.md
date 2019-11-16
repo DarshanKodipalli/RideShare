@@ -1,4 +1,4 @@
-# ML Modeling to predict rideshare trip fare
+# A Machine Learning Model to Predict RideShare Trip Fare
 
 ## Pre-requisites
 
