@@ -7,7 +7,7 @@
 
 ### Create Virtual Environmnet and Install Required Python Packages
 
-Environment File: [fare_model.yml](fare_model.yml)
+**Environment File: [fare_model.yml](fare_model.yml)**
 
 Assuming that Miniconda(python-3) and Java are installed and working as expected:
 
@@ -52,15 +52,15 @@ To open a specific notebook:
 
 ### Install the python package requirements
 
-Requirements File: [requirements.txt](requirements.txt)
+**Minimum Requirements File: [min_requirements.txt](min_requirements.txt)**
 
 ```bash
-$ pip install -U -r requirements.txt
+$ pip install -U -r min_requirements.txt
 ```
 
 ### Load the model from file and predict
 
-Model File: [fare_model.lzma](fare_model.lzma)
+**Model File: [fare_model.lzma](fare_model.lzma)**
 
 ```python
 from joblib import load
@@ -97,4 +97,3 @@ for data in user_data:
 **📧 [mdivana@hawk.iit.edu](mdivana@hawk.iit.edu) ⎟ [maneeshd77@gmail.com](maneeshd77@gmail.com)**
 
 -----
-
