@@ -3,5 +3,4 @@ node_modules/
 .idea/
 *.pyc
 __pycahce__/
-*trips_clean.csv
 .ipynb_checkpoints/
