@@ -41,7 +41,9 @@ public class Register extends HttpServlet {
         response.setHeader("Access-Control-Allow-Origin", "*");
         PrintWriter printWriter = response.getWriter();
         Utility util = new Utility(request, printWriter);
-
+        if (!util.isLoggedin()) {
+            
+        }
     }
 
     @Override
