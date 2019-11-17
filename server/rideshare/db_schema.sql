@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS rides(
     booked_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     duration DOUBLE NOT NULL DEFAULT 0.0,
     cancelled_on DATETIME DEFAULT NULL,
+    cancelled_by VARCHAR(8) DEFAULT NULL,
     cancel_reason VARCHAR(64) DEFAULT NULL,
     `distance` DOUBLE,
     price DOUBLE,

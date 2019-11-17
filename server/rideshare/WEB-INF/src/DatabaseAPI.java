@@ -106,10 +106,11 @@ public class DatabaseAPI {
                 "    booked_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
                 "    duration DOUBLE NOT NULL DEFAULT 0.0,\n" +
                 "    cancelled_on DATETIME DEFAULT NULL,\n" +
+                "    cancelled_by VARCHAR(8) DEFAULT NULL," +
                 "    cancel_reason VARCHAR(64) DEFAULT NULL,\n" +
                 "    `distance` DOUBLE,\n" +
                 "    price DOUBLE,\n" +
-                "    zipcode VARCHAR(8),\n"
+                "    zipcode VARCHAR(8),\n" +
                 "    FOREIGN KEY(customer) REFERENCES USERS(username) ON UPDATE CASCADE ON DELETE CASCADE,\n" +
                 "    FOREIGN KEY(driver) REFERENCES DRIVERS(username) ON UPDATE CASCADE ON DELETE CASCADE\n" +
                 ");"
@@ -152,6 +153,34 @@ public class DatabaseAPI {
         try {
             connectDatabase();
             PreparedStatement pst = connection.prepareStatement("SELECT * FROM users WHERE username=?;");
+            pst.setString(1, username);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                return new User(
+                    rs.getInt("id"),
+                    rs.getString("username"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("credit_card"),
+                    rs.getString("phone"),
+                    rs.getDouble("rating"),
+                    rs.getBoolean("superuser")
+                );
+            }
+            rs.close();
+            pst.close();
+        } finally {
+            housekeeping();
+        }
+        return null;
+    }
+
+    public User getUserAdmin(String username) throws SQLException {
+        try {
+            connectDatabase();
+            PreparedStatement pst = connection.prepareStatement(
+                "SELECT * FROM users WHERE username=? AND superuser=1;"
+            );
             pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -225,21 +254,22 @@ public class DatabaseAPI {
         return null;
     }
 
-    public void insertUser(String username, String email, String password, String creditCard, String phone) throws SQLException {
+    public void insertUser(String username, String email, String password, String creditCard, String phone, boolean superuser) throws SQLException {
         try {
             connectDatabase();
             PreparedStatement pst = connection.prepareStatement(
-                "INSERT INTO users(username, email, password, credit_card, phone) VALUES(?, ?, ?, ?, ?);"
+                "INSERT INTO users(username, email, password, credit_card, phone, superuser) VALUES(?, ?, ?, ?, ?, ?);"
             );
             pst.setString(1, username);
             pst.setString(2, email);
             pst.setString(3, password);
             pst.setString(4, creditCard);
             pst.setString(5, phone);
+            pst.setBoolean(6, superuser);
 
             int res = pst.executeUpdate();
             if (res != 1) {
-                throw new SQLException("Failed to insert User");
+                throw new SQLException("Failed to insert Admin");
             }
         } finally {
             housekeeping();
