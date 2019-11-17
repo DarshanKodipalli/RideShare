@@ -1,0 +1,39 @@
+GET http://127.0.0.1/rideshare/Register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "maneeshd",
+    "usertype": "customer"
+}
+
+POST http://127.0.0.1/rideshare/Register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "maneeshd",
+    "usertype": "customer"
+}
+
+POST http://127.0.0.1/rideshare/Register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "maneeshd",
+    "usertype": "customer",
+    "email": "dmaneesh7@gmail.com",
+    "phone": "312-973-9216",
+    "password": "md123",
+    "creditCard": "1235469731646879"
+}
+
+POST http://127.0.0.1/rideshare/Register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "darshan",
+    "usertype": "admin",
+    "phone": "312-973-9215",
+    "email": "darshan.kodipalli@gmail.com",
+    "password": "admin123",
+    "creditCard": "6958472316975468"
+}
