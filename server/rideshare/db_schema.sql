@@ -35,7 +35,8 @@ CREATE TABLE IF NOT EXISTS rides(
     cancel_reason VARCHAR(64) DEFAULT NULL,
     `distance` DOUBLE,
     price DOUBLE,
-    zipcode VARCHAR(8),
+    from_zipcode VARCHAR(8),
+    to_zipcode VARCHAR(8),
     FOREIGN KEY(customer) REFERENCES USERS(username) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY(driver) REFERENCES DRIVERS(username) ON UPDATE CASCADE ON DELETE CASCADE
 );
