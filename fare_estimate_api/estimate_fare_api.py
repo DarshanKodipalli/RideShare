@@ -3,17 +3,21 @@ Author: Maneesh Divana <maneeshd77@gmail.com>
 
 REST API: Fare Estimation for RideShare
 """
-from flask import Flask, request, jsonify
 from os import urandom
 from os.path import realpath, dirname, join
-from joblib import load
 from sys import exit
+
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+
+from joblib import load
 
 
 CUR_DIR = realpath(dirname(__file__))
 MODEL_NAME = "fare_model.lzma"
 
 app = Flask(__name__)
+CORS(app)
 app.config["MODEL"] = None
 
 
@@ -28,7 +32,7 @@ with app.app_context():
         exit(1)
 
 
-@app.route("/get_fare_estimate", methods=["GET"])
+@app.route("/api/v1/get_fare_estimate", methods=["POST"])
 def get_fare_estimate():
     """
     Returns the estimated ride fare
@@ -50,7 +54,9 @@ def get_fare_estimate():
         is_pooled = data["is_pooled"]
         trips_pooled = data["trips_pooled"]
 
-        pred = app.config.get("MODEL").predict([[duration, distance, is_pooled, trips_pooled]])
+        pred = app.config.get("MODEL").predict(
+            [[duration, distance, is_pooled, trips_pooled]]
+        )
 
         resp = jsonify({"fare": pred[0]})
     except KeyError:
@@ -61,15 +67,11 @@ def get_fare_estimate():
         resp = jsonify("API Error")
         resp.status = 500
     finally:
-        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add("Access-Control-Allow-Origin", "*")
+        resp.headers["Access-Control-Allow-Origin"] = "*"
         return resp
 
 
 if __name__ == "__main__":
     app.config["SECRET_KEY"] = urandom(32).hex()
-    app.run(
-        host="localhost",
-        port=5000,
-        debug=False,
-        threaded=True
-    )
+    app.run(host="localhost", port=5000, debug=False, threaded=True)
