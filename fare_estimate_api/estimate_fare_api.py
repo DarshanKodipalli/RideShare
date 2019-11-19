@@ -32,12 +32,18 @@ with app.app_context():
         exit(1)
 
 
-@app.route("/api/v1/get_fare_estimate", methods=["POST"])
+@app.route("/estimate_fare/are_you_alive")
+def is_alive():
+    """Returns true if the server is up and running"""
+    return jsonify({"STATUS": True}).headers.add("Access-Control-Allow-Origin", "*")
+
+
+@app.route("/estimate_fare/api/v1/get_fare_estimate", methods=["POST"])
 def get_fare_estimate():
     """
     Returns the estimated ride fare
 
-    Method: GET
+    Method: POST
     Parameters: {
         "duration": <float>,    # in seconds
         "distance": <float>,    # in miles
@@ -68,7 +74,6 @@ def get_fare_estimate():
         resp.status = 500
     finally:
         resp.headers.add("Access-Control-Allow-Origin", "*")
-        resp.headers["Access-Control-Allow-Origin"] = "*"
         return resp
 
 
