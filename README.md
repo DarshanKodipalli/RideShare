@@ -191,18 +191,18 @@ $ python fare_estimation/estimate_fare_api.py
 
 *(Runs on port=5000. If port=5000 is not open/being used, then give a custom port using `python fare_estimation/estimate_fare_api.py 5555`)*
 
-#### 7. Start node.js server for UI
+#### 7. Start the Tomcat server
+
+```bash
+$ <path_to_tomcat_server_folder>/bin/catalina.sh run
+```
+
+#### 8. Start node.js/angular server for UI
 
 Assuming you are currently in the **`RideShare/ui`** folder and step 4 is done.
 
 ```bash
-$ ng start
-```
-
-#### 8. Start the Tomcat server
-
-```bash
-$ <path_to_tomcat_server_folder>/bin/catalina.sh run
+$ npm start
 ```
 
 -----
