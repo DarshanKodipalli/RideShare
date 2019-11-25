@@ -5,7 +5,7 @@ REST API: Fare Estimation for RideShare
 """
 from os import urandom
 from os.path import realpath, dirname, join
-from sys import exit
+from sys import exit, argv
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -79,4 +79,8 @@ def get_fare_estimate():
 
 if __name__ == "__main__":
     app.config["SECRET_KEY"] = urandom(32).hex()
-    app.run(host="localhost", port=5000, debug=False, threaded=True)
+    try:
+        port = argv[1]
+    except IndexError:
+        port = 5000
+    app.run(host="localhost", port=port, debug=False, threaded=True)
