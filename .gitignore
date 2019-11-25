@@ -4,3 +4,4 @@ node_modules/
 *.pyc
 __pycahce__/
 .ipynb_checkpoints/
+package-lock.json
