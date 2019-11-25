@@ -68,7 +68,7 @@ public class Utility extends HttpServlet {
     private String htmlToString(String file) {
         String result = "";
         try {
-            result = new String(Files.readAllBytes(Paths.get(HOME_DIR, "dist", file)));
+            result = new String(Files.readAllBytes(Paths.get(HOME_DIR, file)));
         } catch (Exception e) {
             e.printStackTrace();
             result = "<h1>Internal Server Error</h1>";
