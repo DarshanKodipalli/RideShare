@@ -15,6 +15,14 @@
                   <input id="pass" type="password" class="input" data-type="password" placeholder="Enter Password" [(ngModel)]="loginData.password" [ngModelOptions]="{standalone: true}" style="color: black">
                 </div>
                 <div class="group">
+                  <label for="pass" class="label" style="color: black">Role</label>
+                    <select style="color: black" class="input" [(ngModel)]="loginData.usertype" [ngModelOptions]="{standalone: true}">
+                      <option style="color: black" value="admin">Application Admin</option>
+                      <option style="color: black" value="customer">Customer / User</option>
+                      <option style="color: black" value="driver">Driver</option>
+                    </select>
+                </div>                
+                <div class="group">
                   <input id="check" type="checkbox" class="check" checked>
                   <label for="check" style="color: black"><span class="icon"></span> Keep me Signed in</label>
                 </div>
@@ -29,22 +37,26 @@
               <div class="sign-up-htm">
                 <div class="group">
                   <label for="user" class="label" style="color: black">Username</label>
-                  <input id="user" type="text" class="input" placeholder="Enter Username" [(ngModel)]="signUpData.userName" [ngModelOptions]="{standalone: true}" style="color: black">
+                  <input id="user" type="text" class="input" placeholder="Enter Username" [(ngModel)]="signUpData.username" [ngModelOptions]="{standalone: true}" style="color: black">
                 </div>
                 <div class="group">
                   <label for="pass" class="label" style="color: black">Password</label>
                   <input id="pass" type="password" class="input" data-type="password" placeholder="Enter Password" [(ngModel)]="signUpData.password" [ngModelOptions]="{standalone: true}" style="color: black">
                 </div>
                 <div class="group">
-                  <label for="pass" class="label" style="color: black">Repeat Password</label>
-                  <input id="pass" type="password" class="input" data-type="password"  placeholder="Retype Password" [(ngModel)]="signUpData.rePassword" [ngModelOptions]="{standalone: true}" style="color: black">
-                </div>
-                <div class="group">
                   <label for="pass" class="label" style="color: black">Email Address</label>
                   <input id="pass" type="text" class="input"  placeholder="Enter Email" [(ngModel)]="signUpData.email" [ngModelOptions]="{standalone: true}" style="color: black">
                 </div>
                 <div class="group">
-                  <input type="submit" class="button" value="Sign Up" (click)="signUp(signUpData)">
+                  <label for="pass" class="label" style="color: black">Phone Number</label>
+                  <input id="pass" type="text" class="input"  placeholder="Enter your Phone Number" [(ngModel)]="signUpData.phone" [ngModelOptions]="{standalone: true}" style="color: black">
+                </div>                
+                <div class="group">
+                  <label for="pass" class="label" style="color: black">Credit Card</label>
+                  <input id="pass" type="text" class="input"  placeholder="Enter your Credit Card Details" [(ngModel)]="signUpData.creditCard" [ngModelOptions]="{standalone: true}" style="color: black">
+                </div>                
+                <div class="group">
+                  <input type="submit" class="button" value="Sign Up" (click)="signUpFunction(signUpData)">
                 </div>
                 <div class="hr"></div>
                 <div class="foot-lnk">

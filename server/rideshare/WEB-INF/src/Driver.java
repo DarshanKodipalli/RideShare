@@ -9,7 +9,7 @@ class Driver {
     private double rating;
     private String car;
     private String license;
-
+    private String carImage;
 
     public Driver() {
         this.id = -1;
@@ -20,17 +20,19 @@ class Driver {
         this.rating = 0.0;
         this.car= "";
         this.license= "";
+        this.carImage = "";
     }
 
-    public Driver(int id, String username, String email, String password, String phone, double rating, String car, String license) {
+    public Driver(int id, String username, String email, String password, String phone, double rating, String car, String license, String carImage) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email= email;
         this.phone= phone;
-        this.rating = 0.0;
+        this.rating = rating;
         this.car= car;
         this.license= license;
+        this.carImage = carImage;
     }
 
     public int getid() {
@@ -95,6 +97,14 @@ class Driver {
 
     public void setLicense(String license) {
         this.license = license;
+    }
+
+    public String getCarImage() {
+        return this.carImage;
+    }
+
+    public void setCarImage(String carImage) {
+        this.carImage = carImage;
     }
 
 }

@@ -2,18 +2,23 @@
 <header style="position:relative;z-index:1;">
   <mat-toolbar color="primary" class="mat-elevation-z6" style="height: auto!important;padding:12px 0;box-shadow:none;">
       <button mat-button><mat-icon>directions_car</mat-icon> RideShare</button>
-      <ng-container *ngIf="role=='Customer'; else elseTemplate">
+      <ng-container *ngIf="role=='customer'; else elseTemplate">
         <button mat-button>Customer</button>
       </ng-container>
       <ng-template #elseTemplate>
-          <ng-container *ngIf="role=='Admin'">
+          <ng-container *ngIf="role=='admin';else else1Template">
             <button mat-button>Admin</button>
+          </ng-container>
+      </ng-template>
+      <ng-template #else1Template>
+          <ng-container *ngIf="role=='driver'">
+            <button mat-button>Driver</button>
           </ng-container>
       </ng-template>
       
       <span class="example-spacer"></span>
             <span style="font-size: 16px">
-              <button mat-button><mat-icon>my_location</mat-icon> <span>&nbsp;{{city}},{{state}}</span></button>
+              <button mat-button><mat-icon>my_location</mat-icon> <span>&nbsp;{{city}},{{state}} | {{userName}}</span></button>
             </span>
       <button mat-button style="margin-left: 2%">{{actualDate}}</button>
       <button style="margin-left: 2%" mat-button [matMenuTriggerFor]="notifications"><mat-icon matBadge="3" matBadgeColor="accent" matBadgePosition="above before">notifications</mat-icon></button>

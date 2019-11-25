@@ -24,7 +24,7 @@ import com.google.gson.JsonObject;
 public class Utility extends HttpServlet {
     private static final long serialVersionUID = 2L;
     private static final String TOMCAT_HOME = System.getProperty("catalina.home");
-    private static final String HOME_DIR = Paths.get(TOMCAT_HOME, "webapps", "rideshare").toString();
+    private static final String HOME_DIR = Paths.get(TOMCAT_HOME, "webapps", "RideShare").toString();
 
     private HttpServletRequest request;
     private PrintWriter printWriter;

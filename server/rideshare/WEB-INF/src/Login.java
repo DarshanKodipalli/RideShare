@@ -43,16 +43,21 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+        response.addHeader("Access-Control-Allow-Credentials", "true");
+        response.addHeader("Access-Control-Allow-Methods","GET,POST");
+        response.addHeader("Access-Control-Allow-Headers","X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, Cache-Control, Pragma");        
         PrintWriter printWriter = response.getWriter();
         Utility util = new Utility(request, printWriter);
-
+        System.out.print("Login Post Request: ");
         JsonObject jsonObject =  Utility.getRequestJSON(request, gson);
-
+        System.out.print(jsonObject);
         String username = jsonObject.get("username").getAsString();
         String password = jsonObject.get("password").getAsString();
         String usertype = jsonObject.get("usertype").getAsString();
-
+        System.out.print(username);
+        System.out.print(password);
+        System.out.print(usertype);
         // Invalid Request
         if (username == null || username.isEmpty() || password == null || password.isEmpty()|| usertype == null || usertype.isEmpty()) {
             printWriter.println(gson.toJson(new Response()));

@@ -12,25 +12,50 @@ export class RestService {
   }
 
   SignUp(signUpData){
-    return this.http.post("http://192.168.0.21:3000/signup",signUpData,{withCredentials: true});
+    return this.http.post("http://localhost/rideshare/Register",signUpData,{withCredentials: true});
   }  
   signIn(signInData){
-    return this.http.post("http://104.194.106.22:80/rideshare/Login", signInData,{withCredentials: true});
+    return this.http.post("http://localhost/rideshare/Login", signInData);
   }
-  signUp(signUpData){
-    return this.http.post("http://192.168.0.21:3000/signup", signUpData);
+  getAllRides(data){
+    return this.http.post("http://localhost/rideshare/GetAllRides", data);    
+  }
+  getAllRidesForAdmin(){
+    return this.http.get("http://localhost/rideshare/GetAllRides");        
   }
   getAllDrivers(){
     return this.http.get("http://192.168.0.21:3000/signup");    
   }
   bookACab(rideDetails){
-    return this.http.post("http://192.168.0.21:3000/bookCab", rideDetails);
+    return this.http.post("http://localhost/rideshare/BookCab", rideDetails);
   }
   cancelRide(rideDetails){
-    return this.http.post("http://192.168.0.21:3000/cancel/ride", rideDetails);    
+    return this.http.post("http://localhost/rideshare/CancelRide", rideDetails);    
   }  
-  getDashBoardDataForCustomers(){
-    return this.http.get("http://192.168.0.21:3000/getDashBoardData/Customers");        
+  getDataForDashboard(customerName){
+    return this.http.post("http://localhost/rideshare/Dashboard", customerName);        
+  }
+  getDriversInformation(){
+    return this.http.get("http://localhost/rideshare/GetAllDrivers");    
+  }
+  getEstimatedPrice(rideDetails){
+    console.log(rideDetails);
+    return this.http.post("http://localhost:5555/estimate_fare/api/v1/get_fare_estimate", rideDetails);
+  }
+  UpdateUserRating(ratingSetails){
+    return this.http.post("http://localhost/rideshare/UpdateUserRating", ratingSetails);        
+  }
+  getDriverDashboardData(driverName){
+    return this.http.post("http://localhost/rideshare/DriverDashboard", driverName);        
+  }
+  registerDriver(driverDetails){
+    return this.http.post("http://localhost/rideshare/Register", driverDetails);            
+  }
+  registerUser(userDetails){
+    return this.http.post("http://localhost/rideshare/Register", userDetails);                
+  }
+  searchBasedOnDriver(driverName){
+    return this.http.post("http://localhost/rideshare/SearchRecord", driverName);                    
   }
 }
 

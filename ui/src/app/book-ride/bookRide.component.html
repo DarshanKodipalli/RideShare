@@ -15,31 +15,36 @@
                       <mat-form-field style="width:100%;">
                         <input matInput type="text" (keydown.enter)="$event.preventDefault()" placeholder="Destination" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #searchs/>
                       </mat-form-field>
-                      <!--<mat-form-field style="width:80%;">
-                        <input matInput ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" placeholder="Enter Destination.." (onAddressChange)="handleAddressChange1($event)"/>
-                      </mat-form-field>
-                      <mat-form-field style="width:80%;">
-                        <input matInput ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" placeholder="Enter Destination.." (onAddressChange)="handleAddressChange($event)"/>
-                      </mat-form-field>-->
                 </div>
+                <div style="padding:20px;">
+                  <mat-form-field style="width:100%;color: black;">
+                    <input matInput placeholder="Distance" style="color: black;" [disabled]="true" [(ngModel)]="distanceDisplay" [ngModelOptions]="{standalone: true}"  type="text"/>
+                  </mat-form-field>
+                  <mat-form-field style="width:100%;color: black;">
+                    <input matInput placeholder="Estimated travel time" style="color: black;" [disabled]="true" [(ngModel)]="etaDisplay" [ngModelOptions]="{standalone: true}"  type="text"/>
+                  </mat-form-field>
+                </div>                
                 <span style="margin-left: 5%">
                   <u>Enter Ride Type:</u>                
                 </span>
                 <mat-grid-list style="margin-left: 5%" cols="2">
                   <div>
-                      <div class="md-radio md-radio-inline">
-                        <input id="3" type="radio" name="g2" checked>
-                        <label for="3">Single Ride</label>
-                      </div>
-                      <div class="md-radio md-radio-inline">
-                        <input id="3" type="radio" name="g2" checked>
-                        <label for="3">Shared Ride</label>
-                      </div>                      
-                    </div>
+                    <mat-radio-group aria-label="Select Ride Type" [(ngModel)]="radioType" [ngModelOptions]="{standalone: true}">
+                      <mat-radio-button value="single" style="margin-top: 3%" (change)="rideType('single')">Single Ride</mat-radio-button>
+                      <mat-radio-button value="shared" style="margin-left: 5%" (change)="rideType('shared')">Shared Ride</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
                 </mat-grid-list>  
-                <div style="text-align:center;margin-bottom:20px;">
-                  <button mat-raised-button color="primary" (click)="findCabs()">Find Cabs</button>
-                  <button mat-raised-button color="primary" (click)="trackMe()">Track Me!</button>
+                <mat-grid-list [hidden]="numberOfPeople" style="margin-left: 5%;margin-top: 2%;" cols="2">
+                  <div>
+                    <mat-form-field style="width:100%;">
+                      <input matInput placeholder="Enter tne Number of People Boarding" min="1" max="2"  [(ngModel)]="numberOfPeopleCount"  [ngModelOptions]="{standalone: true}" (change)="countEntered()" type="number"/>
+                    </mat-form-field>
+                  </div>
+                </mat-grid-list>  
+
+                <div style="text-align:center;margin-bottom:20px;margin-top: 5%;" >
+                  <button mat-raised-button color="primary" (click)="findCabs()">Find Cabs &nbsp; <mat-icon>directions_car</mat-icon></button>
                 </div>            
             </form>
       </div>
@@ -55,44 +60,75 @@
       <div class="docs-example-viewer-source" id='map'>
         <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [fullscreenControl]='true' [mapTypeControl]='true' [scaleControl]='true' #maps>
           <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)" (markerClick)="markerClicked(latitude,longitude)">
-            <!--<agm-info-window>{{place.lat}}, {{place.lng}}</agm-info-window>-->
           </agm-marker>
-          <agm-transit-layer></agm-transit-layer>
+
+          <agm-marker [latitude]="latitude2" [longitude]="longitude2" [iconUrl]="location.icon" [markerDraggable]="true">
+          </agm-marker>
+  
+            <agm-marker [latitude]="latitude4" [longitude]="longitude4" [iconUrl]="location.icon" [markerDraggable]="true">
+            </agm-marker>
+  
+            <agm-marker [latitude]="latitude5" [longitude]="longitude5" [iconUrl]="location.icon" [markerDraggable]="true">
+            </agm-marker>  
+
+            <agm-marker [latitude]="latitude3" [longitude]="longitude3" [iconUrl]="location.icon" [markerDraggable]="true">
+            </agm-marker>  
+
+            <agm-transit-layer></agm-transit-layer>
           <agm-direction [origin]="origin" [destination]="destination"></agm-direction>     
         </agm-map>
       </div>
     </div>
 </div>
-<div [hidden]="!findNotExecYet" class="example-viewer" style="height: 100%">  
-  <div style="margin-top: 10%;margin-left: 10%;width: 80%" [hidden]="progressBar">
-  <!-- <mat-spinner></mat-spinner> -->
+<div [hidden]="!findNotExecYet" class="example-viewer map_block" style="height: 200%">  
+  <div class="docs-example-viewer-wrapper" style="background:#fff">
+    <!-- <div style="margin-top: 10%;margin-left: 10%;width: 80%" [hidden]="progressBar">
+      <mat-progress-bar mode="query"></mat-progress-bar>  
+    </div>   -->
+    <div [hidden]="progressBar" style="margin-left: 25%;">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{selectedDriver.driverName}}</mat-card-title>
+          <mat-card-subtitle>Chicago, Illinois</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image [src]="selectedDriver.carImage" alt="Photo of a Shiba Inu">
+        <mat-card-content>
+          <h3>{{selectedDriver.driverName}}</h3><p>Rating: &nbsp;<span style="font-weight: bolder;">{{selectedDriver.rating}} / 5.0</span></p>
 
-    <mat-progress-bar mode="query"></mat-progress-bar>  
-  </div>  
-  <div [hidden]="!progressBar" style="margin-left: 35%;">
-    <mat-card class="example-card">
-      <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Christopher Nicolas</mat-card-title>
-        <mat-card-subtitle>Chicago, Illinois</mat-card-subtitle>
-      </mat-card-header>
-      <img mat-card-image src="http://d3c6bloycjddy.cloudfront.net/wp-content/uploads/2018/08/pic-1-1.jpg" alt="Photo of a Shiba Inu">
-      <mat-card-content>
-        <h3>Christopher Nicolas</h3><p>Rating: &nbsp;<span style="font-weight: bolder;">4.4 / 5.0</span></p>
-        <div style="margin-top: 5%" class="row">
-          <div class=" col col-md-6">
-            Car: <span style="font-weight: bolder">Jeep Cherokee</span>                    
+          <div [hidden]="numberOfPeople" style="margin-top: 5%" class="row">
+            <div class=" col col-md-6">
+              Passengers: <span style="font-weight: bolder">{{fareEstimationObject.trips_pooled}}</span> &nbsp;(<span style="font-weight: bolder;">{{selectedDriver.passengerCount}}</span> already in the pool + <span style="font-weight: bolder;">{{numberOfPeopleCount}}</span> from your side)                    
+            </div>
+            <div class="col col-md-6">
+              Total Ride Fare: <span style="font-weight: bolder"> $ &nbsp;{{totalRideFare}}</span>                    
+            </div>
           </div>
-          <div class="col col-md-6">
-            Number: <span style="font-weight: bolder">GTJ 683</span>                    
+
+          <div [hidden]="!numberOfPeople" style="margin-top: 5%" class="row">
+            <div class=" col col-md-6">
+              Number of Passengers Travelling: <span style="font-weight: bolder">{{fareEstimationObject.trips_pooled}}</span>                    
+            </div>
+            <div class="col col-md-6">
+              Total Ride Fare: <span style="font-weight: bolder"> $ &nbsp;{{totalRideFare}}</span>                    
+            </div>
           </div>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-          <button mat-button class="btn btn-success" (click)="confirmBooking()">Confirm Booking</button>
-          <button mat-button class="btn btn-warning">Find Other Driver</button>
-      </mat-card-actions>
-    </mat-card>
+
+          <div style="margin-top: 5%" class="row">
+            <div class=" col col-md-6">
+              Car: <span style="font-weight: bolder">{{selectedDriver.car}}</span>                    
+            </div>
+            <div class="col col-md-6">
+              Number: <span style="font-weight: bolder">{{selectedDriver.license}}</span>                    
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button class="btn btn-success" (click)="confirmBooking()">Confirm Booking</button>
+            <button mat-button class="btn btn-warning" (click)="changeDriver()">Find Other Driver</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
   </div>
 </div>
 <!--

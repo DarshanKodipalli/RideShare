@@ -20,10 +20,10 @@ public class DatabaseAPI {
     public DatabaseAPI() {
         this.host = "127.0.0.1";
         this.port = 3306;
-        this.username = "rideshareAdmin";
-        this.password = "qwerty@123";
-        this.database = "rideshare";
-        this.dbURI = "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database;
+        this.username = "root";
+        this.password = "root";
+        this.database = "RideShareDB";
+        this.dbURI = "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database+"?autoReconnect=true&useSSL=false";
     }
 
     public DatabaseAPI(String host, int port, String username, String password, String database) {
@@ -32,7 +32,7 @@ public class DatabaseAPI {
         this.username = username;
         this.password = password;
         this.database = database;
-        this.dbURI = "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database;
+        this.dbURI = "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database+"?autoReconnect=true&useSSL=false";
     }
 
     private void connectDatabase() throws SQLException {
@@ -88,9 +88,10 @@ public class DatabaseAPI {
                 "    email VARCHAR(64) UNIQUE NOT NULL,\n" +
                 "    `password` VARCHAR(256) NOT NULL,\n" +
                 "    phone VARCHAR(16),\n" +
-                "    rating DOUBLE NOT NULL DEFAULT 0.0,\n" +
+                "    rating INT NOT NULL DEFAULT 0,\n" +
                 "    car VARCHAR(256) NOT NULL,\n" +
                 "    license VARCHAR(16)\n" +
+                "    car_image VARCHAR(256)\n" +                
                 ");"
             );
 
@@ -103,14 +104,18 @@ public class DatabaseAPI {
                 "    `source` VARCHAR(256) NOT NULL,\n" +
                 "    destination VARCHAR(256) NOT NULL,\n" +
                 "    `status` VARCHAR(32) NOT NULL,\n" +
-                "    booked_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
+                "    booked_on_date DATE  NULL ,\n" +
+                "    booked_on_time TIME  NULL ,\n" +
                 "    duration DOUBLE NOT NULL DEFAULT 0.0,\n" +
-                "    cancelled_on DATETIME DEFAULT NULL,\n" +
-                "    cancelled_by VARCHAR(8) DEFAULT NULL," +
+                "    cancelled_on_date DATE  NULL ,\n" +
+                "    cancelled_on_time TIME  NULL ,\n" +
                 "    cancel_reason VARCHAR(64) DEFAULT NULL,\n" +
                 "    `distance` DOUBLE,\n" +
                 "    price DOUBLE,\n" +
-                "    zipcode VARCHAR(8),\n" +
+                "    dropzipcode INT DEFAULT 60616,\n" +
+                "    pickupzipcode INT DEFAULT 60616,\n" +
+                "    userRating INT DEFAULT 60616,\n" +
+                "    driverRating INT DEFAULT 60616,\n" +                
                 "    FOREIGN KEY(customer) REFERENCES USERS(username) ON UPDATE CASCADE ON DELETE CASCADE,\n" +
                 "    FOREIGN KEY(driver) REFERENCES DRIVERS(username) ON UPDATE CASCADE ON DELETE CASCADE\n" +
                 ");"
@@ -175,34 +180,6 @@ public class DatabaseAPI {
         return null;
     }
 
-    public User getUserAdmin(String username) throws SQLException {
-        try {
-            connectDatabase();
-            PreparedStatement pst = connection.prepareStatement(
-                "SELECT * FROM users WHERE username=? AND superuser=1;"
-            );
-            pst.setString(1, username);
-            ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
-                return new User(
-                    rs.getInt("id"),
-                    rs.getString("username"),
-                    rs.getString("email"),
-                    rs.getString("password"),
-                    rs.getString("credit_card"),
-                    rs.getString("phone"),
-                    rs.getDouble("rating"),
-                    rs.getBoolean("superuser")
-                );
-            }
-            rs.close();
-            pst.close();
-        } finally {
-            housekeeping();
-        }
-        return null;
-    }
-
     public HashMap<String, Driver> getDrivers() throws SQLException {
         HashMap<String, Driver> drivers = new HashMap<>();
         try {
@@ -214,12 +191,13 @@ public class DatabaseAPI {
                 drivers.put(username, new Driver(
                     rs.getInt("id"),
                     username,
-                    rs.getString("email"),
                     rs.getString("password"),
+                    rs.getString("email"),
                     rs.getString("phone"),
                     rs.getDouble("rating"),
                     rs.getString("car"),
-                    rs.getString("license")
+                    rs.getString("license"),
+                    rs.getString("car_image")
                 ));
             }
             rs.close();
@@ -233,7 +211,7 @@ public class DatabaseAPI {
     public Driver getDriver(String username) throws SQLException {
         try {
             connectDatabase();
-            PreparedStatement pst = connection.prepareStatement("SELECT * FROM users WHERE username=?;");
+            PreparedStatement pst = connection.prepareStatement("SELECT * FROM drivers WHERE username=?;");
             pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -245,7 +223,8 @@ public class DatabaseAPI {
                     rs.getString("phone"),
                     rs.getDouble("rating"),
                     rs.getString("car"),
-                    rs.getString("license")
+                    rs.getString("license"),
+                    rs.getString("car_image")
                 );
             }
         } finally {
@@ -269,26 +248,27 @@ public class DatabaseAPI {
 
             int res = pst.executeUpdate();
             if (res != 1) {
-                throw new SQLException("Failed to insert Admin");
+                throw new SQLException("Failed to insert User");
             }
         } finally {
             housekeeping();
         }
     }
 
-    public void insertDriver(String username, String email, String password, String phone, String car, String license) throws SQLException {
+    public void insertDriver(String username, String email, String password, String phone, String rating, String car, String license, String car_image) throws SQLException {
         try {
             connectDatabase();
             PreparedStatement pst = connection.prepareStatement(
-                "INSERT INTO drivers(username, email, password, phone, car, license) VALUES(?, ?, ?, ?, ?, ?);"
+                "INSERT INTO drivers(username, email, password, phone, rating, car, license, car_image) VALUES(?, ?, ?, ?, ?, ?, ?, ?);"
             );
             pst.setString(1, username);
             pst.setString(2, email);
             pst.setString(3, password);
             pst.setString(4, phone);
-            pst.setString(5, car);
-            pst.setString(6, license);
-
+            pst.setDouble(5, Double.parseDouble(rating));
+            pst.setString(6, car);
+            pst.setString(7, license);
+            pst.setString(8, car_image);
             int res = pst.executeUpdate();
             if (res != 1) {
                 throw new SQLException("Failed to insert Driver");

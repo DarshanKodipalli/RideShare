@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
   private state:string;
   private user:String = "";
   private actualDate:String = "";
+  private userName:String = JSON.parse(localStorage.getItem("login")).username;
   constructor(private route: Router) { 
     var todaysDate = new Date();
     var todayFormat = formatDate(todaysDate, 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530');
@@ -52,6 +53,7 @@ export class HeaderComponent implements OnInit {
   }
   ngOnInit() {
     var loginData = JSON.parse(localStorage.getItem("login"));
+    console.log(loginData);
     this.role = loginData.role;
     this.user = loginData.userName;
     this.city = loginData.city;

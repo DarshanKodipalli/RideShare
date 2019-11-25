@@ -29,12 +29,20 @@ export class BookRideComponent implements OnInit {
   public displayedColumns: string[] = ['select', 'source', 'destination'];
   public dataSource:any = new MatTableDataSource<Rides>(ELEMENT_DATA);
   public selection = new SelectionModel<Rides>(true, []);
-  // lat = 41.834570;
-  // lng = -87.631800;
   public lat: any;
   public lng : any;
   public latitude : any;
   public longitude: any;
+  public location:any = {};
+  public latitude2 : any;
+  public longitude2: any;
+  public latitude3 : any;
+  public longitude3: any;
+  public latitude4 : any;
+  public longitude4: any;
+  public latitude5 : any;
+  public longitude5: any;
+  public driverMarker:boolean = true;
   public origin: any;
   public destination: any;
   public sourceLat;
@@ -44,15 +52,32 @@ export class BookRideComponent implements OnInit {
   public progressBar:boolean;
   public loadGridSpinner:boolean = true;
   public findNotExecYet:boolean = false;
-
-  private fileUrl:string
-  private role:String;
-  private createInvoice:any = {};
-  private searchParams:any = {};
-  private geoCoder;
-  private isTracking:boolean = false;
-
-  zoom: number;
+  public source:any = "";
+  public destination1:any = "";
+  public customerName:any = JSON.parse(localStorage.getItem("login")).username;
+  public fileUrl:string
+  public role:String;
+  public createInvoice:any = {};
+  public searchParams:any = {};
+  public geoCoder;
+  public isTracking:boolean = false;
+  public pickUpZip:String = "";
+  public dropZip:String = "";
+  public dataObj:any = {};
+  public radioType:any;
+  public numberOfPeople:boolean = true;
+  public numberOfPeopleCount:number = 1;
+  public driversList:any = [];
+  public randomNumber:number;
+  public selectedDriver:any = {};
+  public pickUpTime:number;
+  public eta:number = 0.0;
+  public distance = 0.0; 
+  public etaDisplay:String = "";
+  public distanceDisplay:String = "";
+  public fareEstimationObject:any = {};
+  public totalRideFare:number = 0.0;
+  zoom: number; 
   address: string;
   location1: any;
   location2: any;
@@ -68,122 +93,71 @@ export class BookRideComponent implements OnInit {
   public mapsElementRef: ElementRef;
   
 
-  constructor(private http: RestService, private route: Router,private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone) { 
-    // if (navigator)
-    // {
-    // navigator.geolocation.getCurrentPosition( pos => {
-    //     this.lng = +pos.coords.longitude;
-    //     this.lat = +pos.coords.latitude;
-    //   });
-    // }
-   }
-
-  ngOnInit() {
-    var data = [
-      {
-        "source" : "Michigan Ave, Chicago, IL",
-        "destination" : "Burlington, 1 N State St, Chicago, IL",
-        "distance" : "6.2 miles",
-        "booked_on" : "10-29-2019 10:43",
-        "totalBookingCost" : "$ 13.27",
-        "driver" : "Tim Howard"
-      },
-      {
-        "source" : "2951 South King Drive Chicago, IL",
-        "destination" : "3434 South Michigan Avenue Chicago, IL",
-        "distance" : "1.2 miles",
-        "booked_on" : "10-24-2019 16:22",
-        "totalBookingCost" : "$ 7.63",
-        "driver" : "John Doe"
-      },
-      {
-        "source" : "122 South Michigan Avenue Chicago, IL",
-        "destination" : "Devon Market West Devon Avenue, Chicago, IL",
-        "distance" : "13.2 miles",
-        "booked_on" : "10-31-2019 08:35",
-        "totalBookingCost" : "$ 36.47",
-        "driver" : "Christopher Nicolas"
-      },
-      {
-        "source" : "Lake Meadows East 33rd Street, Chicago, IL",
-        "destination" : "Burlington, 1 N State St, Chicago, IL",
-        "distance" : "0.2 miles",
-        "booked_on" : "10-30-2019 12:43",
-        "totalBookingCost" : "$ 3.78",
-        "driver" : "Steve Henry"
-      },
-      {
-        "source" : "Accounting And Tax Services, Inc East Boughton Road, Bolingbrook, IL",
-        "destination" : "2231 Michigan Avenue Chicago, Illinois",
-        "distance" : "27.2 miles",
-        "booked_on" : "10-26-2019 14:43",
-        "totalBookingCost" : "$ 75.21",
-        "driver" : "Abdul Razak"
-      },
-      {
-        "source" : "Roosevelt University South Michigan Avenue, Chicago, IL",
-        "destination" : "Unibody Auto Collision North Milwaukee Avenue, Chicago, IL",
-        "distance" : "5.4 miles",
-        "booked_on" : "10-8-2019 10:43",
-        "totalBookingCost" : "$ 9.22",
-        "driver" : "Tim Howard"
-      },
-      {
-        "source" : "Target North Elston Avenue, Chicago, IL",
-        "destination" : "Kingston Mines North Halsted Street, Chicago, IL",
-        "distance" : "2.4 miles",
-        "booked_on" : "10-12-2019 18:34",
-        "totalBookingCost" : "$ 8.31",
-        "driver" : "John Doe"
-      },
-      {
-        "source" : "UIC Student Center East South Halsted Street, Chicago, IL",
-        "destination" : "Devon Market West Devon Avenue, Chicago, IL",
-        "distance" : "12.2 miles",
-        "booked_on" : "10-30-2019 08:35",
-        "totalBookingCost" : "$ 36.47",
-        "driver" : "Christopher Nicolas"
-      },
-      {
-        "source" : "Lemar Avenue Evanston, IL",
-        "destination" : "Stuart-Rodgers Photography Green Bay Road, Evanston, IL",
-        "distance" : "1.5 miles",
-        "booked_on" : "10-30-2019 12:43",
-        "totalBookingCost" : "$ 4.88",
-        "driver" : "Steve Henry"
-      }];
+  constructor(public http: RestService, public route: Router,public mapsAPILoader: MapsAPILoader,
+    public ngZone: NgZone) { 
+    this.location.icon = "./taxi.icon";
+    this.dataObj.username = this.customerName;
+      this.http.getDriversInformation().subscribe(
+        (response)=>{
+          this.driversList = response.json();
+          console.log(this.driversList);
+          this.randomNumber = Math.floor(Math.random() * (this.driversList.length+1));
+          console.log(this.randomNumber);
+          this.selectedDriver = this.driversList[this.randomNumber - 1];          
+          this.selectedDriver.passengerCount =  Math.floor(Math.random() * 2);
+          this.pickUpTime = this.randomNumber * 3;
+          this.fareEstimationObject.trips_pooled = this.selectedDriver.passengerCount + this.numberOfPeopleCount;
+        },(error)=>{
+          console.log(error);
+        }
+      );
       this.zoom = 15;
       // let map = new google.maps.Map(document.getElementById('map'))
       // var trafficLayer = new google.maps.TrafficLayer();
       // trafficLayer.setMap(map);
-
-      this.dataSource = new MatTableDataSource<Rides>(data);  
       this.load(); 
+      this.latitude2 = 41.838440
+      this.longitude2 = -87.617100
+
+      this.latitude3 = 41.842180
+      this.longitude3 = -87.627560
+
+      this.latitude4 = 41.841290
+      this.longitude4 = -87.623710
+
+      this.latitude5 = 41.842040
+      this.longitude5 = -87.619510
+
+
+   }
+
+  ngOnInit() {
   }
   load(){
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;
-      // console.log('gencoder ', this.geoCoder)
-
       let autocompleteSource = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
         types: ['geocode']
       });
       autocompleteSource.addListener("place_changed", () => {
         this.ngZone.run(() => {
-          //get the place result
-          let place: google.maps.places.PlaceResult = autocompleteSource.getPlace();
- 
-          //verify result
+          let place: google.maps.places.PlaceResult = autocompleteSource.getPlace(); 
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
- 
-          //set latitude, longitude and zoom
-          // this.latitude = place.geometry.location.lat();
           this.location1 = place.geometry.location;
-          // this.zoom = 12;
+          console.log("place1");
+          console.log(place);
+          this.source = place.formatted_address;
+          this.dataObj.source =this.source;
+          this.pickUpZip = place.address_components[place.address_components.length - 1].long_name;
+          console.log(this.pickUpZip);
+          if(this.pickUpZip){
+            this.dataObj.pickUpzipcode = this.pickUpZip;
+          }else{
+            this.dataObj.pickUpzipcode = 60616;
+          }
         });
       });
       let autocompleteDestination = new google.maps.places.Autocomplete(this.searchDestElementRef.nativeElement, {
@@ -191,24 +165,47 @@ export class BookRideComponent implements OnInit {
       });
       autocompleteDestination.addListener("place_changed", () => {
         this.ngZone.run(() => {
-          //get the place result
           let place: google.maps.places.PlaceResult = autocompleteDestination.getPlace();
- 
-          //verify result
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
- 
-          //set latitude, longitude and zoom
-          // this.latitude = place.geometry.location.lat();
           this.location2 = place.geometry.location;
-          // this.zoom = 12;
+          console.log("place2");
+          console.log(place);
+          this.destination1 = place.formatted_address;
+          this.getDistancia(this.source, this.destination1);
+          this.dataObj.destination = this.destination1;
+          this.dropZip = place.address_components[place.address_components.length - 1].long_name;          
+          console.log(this.dropZip);
+          if(this.dropZip){
+            this.dataObj.dropzipcode = this.dropZip;
+          }else{
+            this.dataObj.dropzipcode = 60616;
+          }
         });
       });
     });
   }
 
-  private setCurrentLocation() {
+  public getDistancia(origen: string, destino: string) {
+    return new google.maps.DistanceMatrixService().getDistanceMatrix({'origins': [origen], 'destinations': [destino], travelMode: 'DRIVING'}, (results: any) => {
+        this.distance = 0.000621371 * results.rows[0].elements[0].distance.value;
+        this.distance = Math.round(this.distance*100)/100;
+        this.dataObj.distance = this.distance;
+        this.eta = results.rows[0].elements[0].duration.value;
+        this.dataObj.duration = results.rows[0].elements[0].duration.value;    
+        this.eta = this.eta / 60;
+        this.eta = Math.round(this.eta*100)/100;
+        this.etaDisplay = this.eta + " Minutes";
+        this.distanceDisplay = this.distance + " Miles";
+        this.fareEstimationObject.duration = results.rows[0].elements[0].duration.value;
+        this.fareEstimationObject.distance = this.distance;
+        console.log('result distance (mts) -- ', this.distance);
+        console.log('result Duration (seconds) -- ', this.eta);
+    });
+  }
+
+  public setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude;
@@ -263,35 +260,100 @@ export class BookRideComponent implements OnInit {
           }    
       }
   }  
+  rideType(type){
+    if(type === "shared"){
+      this.numberOfPeople = false;
+      this.fareEstimationObject.is_pooled = true;
+    }else{
+      this.fareEstimationObject.is_pooled = false;
+      this.fareEstimationObject.trips_pooled = 1;      
+      this.numberOfPeople = true;
+    }
+  }
+  countEntered(){
+    this.fareEstimationObject.trips_pooled = this.selectedDriver.passengerCount + this.numberOfPeopleCount;
+  }
   findCabs(){
+    this.http.getEstimatedPrice(this.fareEstimationObject).subscribe(
+      (response)=>{
+        console.log(response.json());
+        this.totalRideFare = response.json().fare;
+        this.totalRideFare = Math.round(this.totalRideFare*100)/100;
+      },(error)=>{
+        console.log(error);
+      })
+    this.driverMarker = false;
     this.origin = {};
     this.destination = {};
     console.log(this.location1, this.location2)
     this.origin = this.location1;
     this.destination = this.location2;
-    // this.progressBar = false;
-    // this.findNotExecYet = true;
+    console.log(this.origin);
+    console.log(this.destination);
     this.zoom = 18;
     setTimeout(() => {
-      this.progressBar=true;
-    }, 5000);    
+      this.findNotExecYet = true;
+    }, 8000);    
+  }
+  changeDriver(){
+    Swal({
+      title: 'Confirm Change the Driver? ',
+      text: 'This\'ll change your current driver!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      this.randomNumber = Math.floor(Math.random() * this.driversList.length);
+      console.log(this.randomNumber);
+      this.selectedDriver = this.driversList[this.randomNumber - 1];
+      this.selectedDriver.passengerCount =  Math.floor(Math.random() * 2);
+      this.fareEstimationObject.trips_pooled = this.selectedDriver.passengerCount + this.numberOfPeopleCount;
+      this.pickUpTime = this.randomNumber * 3;      
+    this.http.getEstimatedPrice(this.fareEstimationObject).subscribe(
+      (response)=>{
+        console.log(response.json());
+        this.totalRideFare = response.json().fare;
+        this.totalRideFare = Math.round(this.totalRideFare*100)/100;
+        Swal(
+          'We have found a new driver for you',
+          this.selectedDriver.driverName+' will be your new Driver',
+          'success'
+        ).then((newResult)=>{
+        })
+        },(error)=>{
+          console.log(error);
+        })
+      },(error)=>{
+        console.log(error);
+      })      
   }
   confirmBooking(){
     Swal({
-      title: 'Confirm Booking?',
+      title: 'Confirm Booking with '+this.selectedDriver.driverName,
       text: 'This\'ll Confirm your booking!',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel'
     }).then((result) => {
-        Swal(
-          'Booking Confirmed',
-          'Christopher Nicolas will pick you up in 7 Minutes',
-          'success'
-        ).then((newResult)=>{
-          this.route.navigate(['/allRides']);
-        })
+        this.dataObj.rideType = this.radioType;
+        this.dataObj.driver = this.selectedDriver.driverName;
+        this.dataObj.price = this.totalRideFare;
+        console.log(this.dataObj);
+        this.http.bookACab(this.dataObj).subscribe(
+          (response)=>{
+            console.log(response.json());
+            Swal(
+              'Booking Confirmed',
+              this.selectedDriver.driverName+' will pick you up in ' +this.pickUpTime+ ' Minutes',
+              'success'
+            ).then((newResult)=>{
+              this.route.navigate(['/allRides']);
+            })
+          },(error)=>{
+            console.log(error);
+          })
       },(error)=>{
         console.log(error);
       })

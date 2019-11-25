@@ -1,0 +1,97 @@
+<div style="margin-top: 2%;" class="example-viewer">
+    <div class="docs-example-viewer-wrapper"  style="margin:0;background:transparent;border:none;box-shadow:none">
+      <!--<div class="docs-example-viewer-title">
+        <div class="docs-example-viewer-title-spacer">
+          Dashboard
+        </div>
+      </div>-->
+      <div class="docs-example-viewer-source" style="padding:0;background:transparent;">
+        <div class="example-viewer" style="display:flex;margin-left: 5%;flex-direction:row;flex-wrap: wrap;justify-content: flex-start; padding:0;background:transparent;">
+            <div class="docs-example-viewer-wrapper" style="width:45%;">
+              <div class="docs-example-viewer-title">
+                <div class="docs-example-viewer-title-spacer">
+                  Rides Booked (Daywise)
+                </div>
+              </div>
+              <div class="docs-example-viewer-source">
+                  <mat-progress-bar *ngIf="show" color="accent" mode="indeterminate"></mat-progress-bar>
+                  <mat-spinner *ngIf="show" color="accent" diameter="20" style="z-index:2;position:absolute;"></mat-spinner>
+                  <div *ngIf="chart">
+                    <canvas id="canvas">{{ chart }}</canvas>
+                  </div>
+              </div>
+            </div>
+            <div class="docs-example-viewer-wrapper" style="width:45%;">
+              <div class="docs-example-viewer-title">
+                <div class="docs-example-viewer-title-spacer">
+                  Wages Earned (Daywise)
+                </div>
+              </div>
+              <div class="docs-example-viewer-source">
+                  <mat-progress-bar *ngIf="show" color="accent" mode="indeterminate"></mat-progress-bar>
+                  <mat-spinner *ngIf="show" color="accent" diameter="20" style="z-index:2;position:absolute;"></mat-spinner>        
+                <div *ngIf="chart">
+                  <canvas id="canvas1">{{ chart }}</canvas>
+                </div>
+              </div>
+            </div>
+<!--             <div class="docs-example-viewer-wrapper" style="width:45%;">
+              <div class="docs-example-viewer-title">
+                <div class="docs-example-viewer-title-spacer">
+                  Driver Average Ratings
+                </div>
+              </div>
+              <div class="docs-example-viewer-source">
+                <mat-progress-bar *ngIf="show" color="accent" mode="indeterminate"></mat-progress-bar>
+                <mat-spinner *ngIf="show" color="accent" diameter="20" style="z-index:2;position:absolute;"></mat-spinner>        
+              <div *ngIf="chart">
+                <canvas id="canvas2">{{ chart }}</canvas>
+              </div>
+              </div>
+            </div> -->
+            <div class="docs-example-viewer-wrapper" style="width:45%;">
+              <div class="docs-example-viewer-title">
+                <div class="docs-example-viewer-title-spacer">
+                  Ride Pickups
+                </div>
+              </div>
+              <div class="docs-example-viewer-source">
+                  <mat-progress-bar *ngIf="show" color="accent" mode="indeterminate"></mat-progress-bar>
+                  <mat-spinner *ngIf="show" color="accent" diameter="20" style="z-index:2;position:absolute;"></mat-spinner>        
+                <div *ngIf="chart">
+                  <canvas id="canvas3">{{ chart }}</canvas>
+                </div>
+              </div>
+            </div>
+            <div class="docs-example-viewer-wrapper" style="width:45%;">
+              <div class="docs-example-viewer-title">
+                <div class="docs-example-viewer-title-spacer">
+                  Ride Drops
+                </div>
+              </div>
+              <div class="docs-example-viewer-source">
+                  <mat-progress-bar *ngIf="show" color="accent" mode="indeterminate"></mat-progress-bar>
+                  <mat-spinner *ngIf="show" color="accent" diameter="20" style="z-index:2;position:absolute;"></mat-spinner>        
+                <div *ngIf="chart">
+                  <canvas id="canvas4">{{ chart }}</canvas>
+                </div>
+              </div>
+            </div>
+<!--             <div class="docs-example-viewer-wrapper" style="width:45%;">
+              <div class="docs-example-viewer-title">
+                <div class="docs-example-viewer-title-spacer">
+                  Rides With Drivers
+                </div>
+              </div>
+              <div class="docs-example-viewer-source">
+                  <mat-progress-bar *ngIf="show" color="accent" mode="indeterminate"></mat-progress-bar>
+                  <mat-spinner *ngIf="show" color="accent" diameter="20" style="z-index:2;position:absolute;"></mat-spinner>
+                  <div *ngIf="chart">
+                    <canvas id="canvas5">{{ chart }}</canvas>
+                  </div>
+              </div>
+            </div> -->
+        </div>
+      </div>
+    </div>
+</div>

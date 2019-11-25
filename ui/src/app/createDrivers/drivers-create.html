@@ -20,12 +20,12 @@
                           <mat-grid-list cols="1" rowHeight="100px">
                             <mat-grid-tile>
                                 <mat-form-field style="width:90%;">
-                                  <input matInput placeholder="Driver Name" [(ngModel)]="driverData.name" [ngModelOptions]="{standalone: true}">
+                                  <input matInput placeholder="Driver Name" [(ngModel)]="driverData.username" [ngModelOptions]="{standalone: true}">
                                 </mat-form-field>
                             </mat-grid-tile>
                             <mat-grid-tile>
                                 <mat-form-field style="width:90%;">
-                                  <input matInput placeholder="Driver Contact Number" [(ngModel)]="driverData.number" [ngModelOptions]="{standalone: true}">
+                                  <input matInput placeholder="Driver Contact Number" [(ngModel)]="driverData.phone" [ngModelOptions]="{standalone: true}">
                                 </mat-form-field>
                             </mat-grid-tile>
 
@@ -36,7 +36,7 @@
                             </mat-grid-tile>
                             <mat-grid-tile>
                                 <mat-form-field style="width:90%;">
-                                  <input matInput placeholder="Driver Vehicle Name" [(ngModel)]="driverData.vehicleName" [ngModelOptions]="{standalone: true}">
+                                  <input matInput placeholder="Driver Vehicle Name" [(ngModel)]="driverData.car" [ngModelOptions]="{standalone: true}">
                                 </mat-form-field>
                             </mat-grid-tile>
 
@@ -45,9 +45,16 @@
                                   <input matInput placeholder="Vehicle Number" [(ngModel)]="driverData.vehicleNumber" [ngModelOptions]="{standalone: true}">
                                 </mat-form-field>
                             </mat-grid-tile>
+
                             <mat-grid-tile>
                                 <mat-form-field style="width:90%;">
-                                  <input matInput placeholder="Driver Liscence Number" [(ngModel)]="driverData.liscenceNumber" [ngModelOptions]="{standalone: true}">
+                                  <input matInput placeholder="Rating" [(ngModel)]="driverData.rating" [ngModelOptions]="{standalone: true}">
+                                </mat-form-field>
+                            </mat-grid-tile>
+
+                            <mat-grid-tile>
+                                <mat-form-field style="width:90%;">
+                                  <input matInput placeholder="Driver Liscence Number" [(ngModel)]="driverData.license" [ngModelOptions]="{standalone: true}">
                                 </mat-form-field>
                             <button class="btn btn-primary" (click)="addDriver(driverData)" style="float: right;">
                                 Add Driver

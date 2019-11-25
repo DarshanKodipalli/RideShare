@@ -32,6 +32,8 @@ import { NavComponent } from './nav/nav.component';
 import { RestService } from './services/rest.service';
 import { BookRideComponent } from './book-ride/bookRide.component';
 import { CreateDriversComponent } from './createDrivers/drivers-create';
+import { AllDriversComponent } from './all-drivers/allDrivers.component';
+import { DriverDashboardComponent } from './driverDashboard/driverDashboard.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { CreateDriversComponent } from './createDrivers/drivers-create';
     NavComponent,
     AllRidesComponent,
     BookRideComponent,
-    CreateDriversComponent
+    CreateDriversComponent,
+    AllDriversComponent,
+    DriverDashboardComponent
   ],
   imports: [
     AgmCoreModule.forRoot({

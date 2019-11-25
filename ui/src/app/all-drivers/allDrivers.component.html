@@ -1,0 +1,135 @@
+<div class="example-viewer">
+    <div class="docs-example-viewer-wrapper">
+      <div class="docs-example-viewer-title">
+        <div class="docs-example-viewer-title-spacer">
+          Drivers Search
+        </div>
+      </div>
+      <div class="docs-example-viewer-source">
+          
+          <form class="art-pad30">
+              <mat-grid-list cols="5" rowHeight="100px">
+                  <mat-grid-tile>
+                      <mat-form-field style="width:90%;">
+                          <input matInput placeholder="Driver Name" [(ngModel)]="searchParams.driverID" [ngModelOptions]="{standalone: true}" value="">
+                        </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                      <mat-form-field style="width:90%;">
+                          <input matInput placeholder="Email ID" [(ngModel)]="searchParams.emailID" [ngModelOptions]="{standalone: true}" value="">
+                        </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                      <mat-form-field style="width:90%;">
+                          <input matInput placeholder="Phone" [(ngModel)]="searchParams.phone" [ngModelOptions]="{standalone: true}" value="">
+                        </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                      <mat-form-field style="width:90%;">
+                          <input matInput placeholder="License" [(ngModel)]="searchParams.license" [ngModelOptions]="{standalone: true}" value="">
+                        </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <mat-form-field style="width:90%;">
+                      <mat-label>Status</mat-label>
+                      <select matNativeControl required>
+                        <option label=""></option>
+                        <option value="saab">Completed</option>
+                        <option value="mercedes">Cancelled</option>
+                      </select>
+                    </mat-form-field>
+                  </mat-grid-tile>
+                </mat-grid-list>  
+                <button mat-stroked-button color="primary" (click)="invoiceSearch(searchParams)">Search</button>            
+            </form>
+      </div>
+    </div>
+</div>
+<div class="example-viewer">
+    <div class="docs-example-viewer-wrapper">
+      <div class="docs-example-viewer-title">
+        <div class="docs-example-viewer-title-spacer">
+          All Drivers Grid
+        </div>
+      </div>
+      <div class="docs-example-viewer-source">
+          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+              <!-- Checkbox Column -->
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null"
+                                [checked]="selection.isSelected(row)">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+                                      
+              <!-- Amount Column -->
+              <ng-container matColumnDef="username">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Driver Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.driverName}} </td>
+              </ng-container>
+            
+              <!-- Seller ID Column -->
+              <ng-container matColumnDef="phone">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
+                <td mat-cell *matCellDef="let element"> {{element.driverPhone}} </td>
+              </ng-container>
+            
+              <!-- Banker ID Column -->
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Email ID </th>
+                <td mat-cell *matCellDef="let element"> {{element.driverEmail}} </td>
+              </ng-container>
+
+              <!-- Created Date Column -->
+              <ng-container matColumnDef="car">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Car </th>
+                <td mat-cell *matCellDef="let element"> {{element.car}} </td>
+              </ng-container>
+
+              <!-- Status Column -->
+              <ng-container matColumnDef="license">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> License Number </th>
+                <td mat-cell *matCellDef="let element"> {{element.license}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="rating">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Driver Rating </th>
+                <td mat-cell *matCellDef="let element"> {{element.rating}} &nbsp;/ &nbsp;5 </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+              (click)="selection.toggle(row)" (dblclick)="addTab(row)">
+              </tr>
+            </table>
+            <!--(click)="selection.toggle(row)"-->
+          <mat-paginator class="art-boxshadow" [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]">
+          </mat-paginator>
+          <mat-toolbar style="position:relative;z-index:0;width:60%;height:56px;margin-top:-56px;margin-left:10px;background-color:#fff;">
+          
+              <button mat-button [matMenuTriggerFor]="actions">Actions<mat-icon class="example-icon">arrow_drop_down</mat-icon></button>
+
+              <mat-menu #actions="matMenu">
+                <button mat-menu-item (click)="createInvoiceDirectly()">View More Details</button>
+                <button mat-menu-item >Cancel Ride</button>
+              </mat-menu>              
+            </mat-toolbar>
+      </div>
+    </div>
+</div>
+
+<!--
+  https://blog.angular-university.io/angular-material-data-table/
+  https://github.com/angular/material2/tree/master/src/material-examples/paginator-configurable
+-->

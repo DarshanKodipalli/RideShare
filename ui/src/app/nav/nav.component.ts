@@ -14,8 +14,14 @@ export class NavComponent implements OnInit {
     var loginData = JSON.parse(localStorage.getItem("login"));
     this.role = loginData.role;    
   }
-
-  showUsers(user){
+dashboardNavigate(){
+  if(JSON.parse(localStorage.getItem("login")).role === 'driver'){
+    this.rout.navigate(["/driverDashboard"]);
+  }else{
+    this.rout.navigate(["/dashboard"]);    
+  }
+}
+showUsers(user){
     if(user === 'buyer'){
       this.rout.navigate(['/users']);
     }else{

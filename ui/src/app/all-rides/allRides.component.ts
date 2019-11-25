@@ -10,9 +10,10 @@ export interface Rides {
   source: string;
   destination: string;
   distance: string;
-  booked_on: string;
+  booked_on_date: string;
   totalBookingCost: string;
   driver: string;
+  status:string;
 }
 
 const ELEMENT_DATA: Rides[] = [
@@ -25,7 +26,11 @@ const ELEMENT_DATA: Rides[] = [
 })
 export class AllRidesComponent implements OnInit {
 
-  displayedColumns: string[] = ['select', 'source', 'destination', 'distance', 'booked_on', 'totalBookingCost', 'driver'];
+  public selectedRecord:any = {};
+  public rideCancellationReason:String = "";
+  public customerName:any = JSON.parse(localStorage.getItem("login")).username;
+  public userRole:any = JSON.parse(localStorage.getItem("login")).role;
+  displayedColumns: string[] = ['source', 'destination', 'distance', 'booked_on_date', 'totalBookingCost', 'status' , 'driver', 'rating'];
   dataSource:any = new MatTableDataSource<Rides>(ELEMENT_DATA);
   selection = new SelectionModel<Rides>(true, []);
 
@@ -40,82 +45,194 @@ export class AllRidesComponent implements OnInit {
   private role:String;
   private createInvoice:any = {};
   private searchParams:any = {};
+  private rideShow:boolean = false;
+  private allRidesList:any = [];
+  private cancelledRidesList:any = [];
+  private cancelRideBool:boolean = false;
+  private ratingValue:number = 0;
+  public driverName:String = "";
+  public rate_Whom:String = "Give Rating";
   ngOnInit() {
-    var data = [
-      {
-        "source" : "Michigan Ave, Chicago, IL",
-        "destination" : "Burlington, 1 N State St, Chicago, IL",
-        "distance" : "6.2 miles",
-        "booked_on" : "10-29-2019 10:43",
-        "totalBookingCost" : "$ 13.27",
-        "driver" : "Tim Howard"
-      },
-      {
-        "source" : "2951 South King Drive Chicago, IL",
-        "destination" : "3434 South Michigan Avenue Chicago, IL",
-        "distance" : "1.2 miles",
-        "booked_on" : "10-24-2019 16:22",
-        "totalBookingCost" : "$ 7.63",
-        "driver" : "John Doe"
-      },
-      {
-        "source" : "122 South Michigan Avenue Chicago, IL",
-        "destination" : "Devon Market West Devon Avenue, Chicago, IL",
-        "distance" : "13.2 miles",
-        "booked_on" : "10-31-2019 08:35",
-        "totalBookingCost" : "$ 36.47",
-        "driver" : "Christopher Nicolas"
-      },
-      {
-        "source" : "Lake Meadows East 33rd Street, Chicago, IL",
-        "destination" : "Burlington, 1 N State St, Chicago, IL",
-        "distance" : "0.2 miles",
-        "booked_on" : "10-30-2019 12:43",
-        "totalBookingCost" : "$ 3.78",
-        "driver" : "Steve Henry"
-      },
-      {
-        "source" : "Accounting And Tax Services, Inc East Boughton Road, Bolingbrook, IL",
-        "destination" : "2231 Michigan Avenue Chicago, Illinois",
-        "distance" : "27.2 miles",
-        "booked_on" : "10-26-2019 14:43",
-        "totalBookingCost" : "$ 75.21",
-        "driver" : "Abdul Razak"
-      },
-      {
-        "source" : "Roosevelt University South Michigan Avenue, Chicago, IL",
-        "destination" : "Unibody Auto Collision North Milwaukee Avenue, Chicago, IL",
-        "distance" : "5.4 miles",
-        "booked_on" : "10-8-2019 10:43",
-        "totalBookingCost" : "$ 9.22",
-        "driver" : "Tim Howard"
-      },
-      {
-        "source" : "Target North Elston Avenue, Chicago, IL",
-        "destination" : "Kingston Mines North Halsted Street, Chicago, IL",
-        "distance" : "2.4 miles",
-        "booked_on" : "10-12-2019 18:34",
-        "totalBookingCost" : "$ 8.31",
-        "driver" : "John Doe"
-      },
-      {
-        "source" : "UIC Student Center East South Halsted Street, Chicago, IL",
-        "destination" : "Devon Market West Devon Avenue, Chicago, IL",
-        "distance" : "12.2 miles",
-        "booked_on" : "10-30-2019 08:35",
-        "totalBookingCost" : "$ 36.47",
-        "driver" : "Christopher Nicolas"
-      },
-      {
-        "source" : "Lemar Avenue Evanston, IL",
-        "destination" : "Stuart-Rodgers Photography Green Bay Road, Evanston, IL",
-        "distance" : "1.5 miles",
-        "booked_on" : "10-30-2019 12:43",
-        "totalBookingCost" : "$ 4.88",
-        "driver" : "Steve Henry"
-      }];
-
-      this.dataSource = new MatTableDataSource<Rides>(data);      
+    if(JSON.parse(localStorage.getItem("login")).role ===  'admin'){
+      console.log(this.userRole);
+      this.http.getAllRidesForAdmin().subscribe(
+        (response)=>{
+          console.log(response.json())
+          this.allRidesList = response.json();
+          this.allRidesList.map(function(d) {
+            if(JSON.parse(localStorage.getItem("login")).role === 'driver'){
+              d.rating = d.driverRating;
+            }else{
+              d.rating = d.userRating;              
+            }
+            d.distance = Math.round(parseFloat(d.distance) * 100 ) / 100;
+            d.price = Math.round(d.price*100)/100;
+          })
+          this.dataSource = new MatTableDataSource<Rides>(this.allRidesList);      
+        },(error)=>{
+          console.log(error);
+        })
+    }else{
+      console.log(this.userRole);
+      this.http.getAllRides({username:this.customerName,role:JSON.parse(localStorage.getItem("login")).role}).subscribe(
+        (response)=>{
+          console.log(response.json())
+          this.allRidesList = response.json();
+          this.allRidesList.map(function(d) {
+            if(JSON.parse(localStorage.getItem("login")).role === 'driver'){
+              if(d.driverRating){
+                d.rating = d.driverRating;                
+              }else{
+                d.rating = "Not Rated yet!"
+              }
+            }else{
+              d.rating = d.userRating;    
+              if(d.userRating){
+                d.rating = d.userRating;                
+              }else{
+                d.rating = "Not Rated yet!"
+              }                        
+            }
+            d.distance = Math.round(parseFloat(d.distance) * 100 ) / 100;
+            d.price = Math.round(d.price*100)/100;
+          })
+          this.dataSource = new MatTableDataSource<Rides>(this.allRidesList);      
+        },(error)=>{
+          console.log(error);
+        })
+    }
   }
-
+  rideSearch(driverName){
+    this.http.searchBasedOnDriver({driverName:driverName}).subscribe(
+      (response)=>{
+        console.log(response.json());
+        var data = response.json();
+          data.map(function(d) {
+            if(JSON.parse(localStorage.getItem("login")).role === 'driver'){
+              if(d.driverRating){
+                d.rating = d.driverRating;                
+              }else{
+                d.rating = "Not Rated yet!"
+              }
+            }else{
+              d.rating = d.userRating;    
+              if(d.userRating){
+                d.rating = d.userRating;                
+              }else{
+                d.rating = "Not Rated yet!"
+              }                        
+            }
+            d.distance = Math.round(parseFloat(d.distance) * 100 ) / 100;
+            d.price = Math.round(d.price*100)/100;
+          })
+          this.dataSource = new MatTableDataSource<Rides>(data);      
+      },(error)=>{
+        console.log(error);
+      })
+  }
+  cancelledRides(){
+    var cancelledData = [];
+    this.allRidesList.map(function(ride){
+      console.log(ride);
+      if(ride.status === "Cancelled"){
+        cancelledData.push(ride);
+      }
+    })    
+    this.cancelledRidesList = cancelledData;
+    this.dataSource = new MatTableDataSource<Rides>(this.cancelledRidesList);      
+  } 
+  allRides(){
+    this.dataSource = new MatTableDataSource<Rides>(this.allRidesList);      
+  } 
+  action(type){
+    if(type === "cancel"){
+      this.cancelRideBool = false;
+    }else{
+      this.cancelRideBool = true;      
+    }
+  }
+  cancelRide(rideDetail){
+    console.log(rideDetail);
+    this.selectedRecord = rideDetail;
+    this.rideShow = true;
+  }
+  cancelRideFunction(){
+    Swal({
+      title: 'Cancel the Ride?',
+      text: 'This\'ll Cancel the Ride!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Cancel',
+      cancelButtonText: 'Dismiss'
+    }).then((result) => {
+      this.selectedRecord.cancel_reason = this.rideCancellationReason;
+      this.http.cancelRide(this.selectedRecord).subscribe(
+        (response)=>{
+          Swal(
+            'Ride Cancelled!',
+            'Success'
+          ).then((newResult)=>{
+            if(JSON.parse(localStorage.getItem("login")).role === 'driver'){
+             this.route.navigate(['/driverDashboard']);
+            }else{              
+             this.route.navigate(['/dashboard']);
+            }
+          })   
+        },(error)=>{
+          console.log(error);
+        }
+      )
+    })    
+  }     
+  submitRating(){
+    if(this.userRole === 'driver'){
+      Swal({
+        title: 'Submit Rating of '+this.ratingValue+' to '+this.selectedRecord.customer+' ?',
+        text: 'This\'ll Submit the rating!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Rate',
+        cancelButtonText: 'Dismiss'
+      }).then((result) => {
+        this.selectedRecord.rating = this.ratingValue;
+        this.selectedRecord.role = this.userRole;
+        this.http.UpdateUserRating(this.selectedRecord).subscribe(
+          (response)=>{
+            Swal(
+              'Rating Saved!',
+              'Success'
+            ).then((newResult)=>{
+              this.route.navigate(["/driverDashboard"])
+            })   
+          },(error)=>{
+            console.log(error);
+          }
+        )
+      })        
+    }else{
+      Swal({
+        title: 'Submit Rating of '+this.ratingValue+' to '+this.selectedRecord.driver+' ?',
+        text: 'This\'ll Submit the rating!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Rate',
+        cancelButtonText: 'Dismiss'
+      }).then((result) => {
+        this.selectedRecord.rating = this.ratingValue;
+        this.selectedRecord.role = this.userRole;
+        this.http.UpdateUserRating(this.selectedRecord).subscribe(
+          (response)=>{
+            Swal(
+              'Rating Saved!',
+              'Success'
+            ).then((newResult)=>{
+              this.route.navigate(["/dashboard"])              
+            })   
+          },(error)=>{
+            console.log(error);
+          }
+        )
+      })        
+    }
+  }
 }

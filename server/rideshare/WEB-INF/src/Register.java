@@ -19,28 +19,27 @@ public class Register extends HttpServlet {
 
     class Response {
         boolean error;
-        boolean registered;
         String username;
         String usertype;
+        boolean registered;
         String msg;
 
         public Response() {
             this.error = true;
+            this.username = null;
             this.registered = false;
             this.msg = "";
-            this.username = null;
             this.usertype = null;
         }
 
-        public Response(boolean error, boolean registered, String username, String usertype, String msg) {
+        public Response(boolean error, boolean registered, String username, String usertype, String message) {
             this.error = error;
             this.registered = registered;
             this.username = username;
             this.usertype = usertype;
-            this.msg = msg;
+            this.msg = message;
         }
     }
-
     private Response isRegistered(String username, String usertype) throws SQLException {
         DatabaseAPI dbAPI = new DatabaseAPI();
 
@@ -124,12 +123,14 @@ public class Register extends HttpServlet {
         // Driver
         String car = "";
         String license = "";
-
+        String rating = "";
+        String carImage = "";
         // Customer & Admin
         String creditCard = "";
 
         try {
             JsonObject jsonObject =  Utility.getRequestJSON(request, gson);
+            System.out.print(jsonObject);
             usertype = jsonObject.get("usertype").getAsString();
             
             // Common details for all users
@@ -147,6 +148,8 @@ public class Register extends HttpServlet {
             }
 
             if (usertype.equalsIgnoreCase("driver")) {
+                rating = jsonObject.get("rating").getAsString();
+                carImage = jsonObject.get("carImage").getAsString();
                 car = jsonObject.get("car").getAsString();
                 license = jsonObject.get("license").getAsString();
                 if (car ==  null || license == null || car.isEmpty() || license.isEmpty()) {
@@ -192,7 +195,7 @@ public class Register extends HttpServlet {
 
             DatabaseAPI dbAPI = new DatabaseAPI();
             if (usertype.equalsIgnoreCase("driver")) {
-                dbAPI.insertDriver(username, email, password, phone, car, license);
+                dbAPI.insertDriver(username, email, password, phone, rating, car, license, carImage);
                 resp = new Response(
                     false, true, username, usertype, "Driver: " + username + " registered."
                 );

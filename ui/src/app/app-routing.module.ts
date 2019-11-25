@@ -6,6 +6,8 @@ import { LoginComponent } from './login/login.component';
 import { AllRidesComponent } from './all-rides/allRides.component';
 import { BookRideComponent } from './book-ride/bookRide.component';
 import { CreateDriversComponent } from './createDrivers/drivers-create';
+import { AllDriversComponent } from './all-drivers/allDrivers.component';
+import { DriverDashboardComponent } from './driverDashboard/driverDashboard.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -13,6 +15,8 @@ const routes: Routes = [
   { path: 'allRides', component: AllRidesComponent},
   { path: 'bookRide', component: BookRideComponent},
   { path: 'addDrivers', component:CreateDriversComponent},
+  { path: 'viewDrivers', component: AllDriversComponent},
+  { path: 'driverDashboard', component: DriverDashboardComponent},
   { path: '', component: LoginComponent }
 ];
 
