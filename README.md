@@ -1,3 +1,5 @@
+[//]: # (Open README.html for rendered page)
+
 # RideShare
 
 * A web application to manage taxi ridesharing using Java Servlets, Python, AngularJS and Machine Learning.
