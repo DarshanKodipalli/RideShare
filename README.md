@@ -4,7 +4,7 @@
 
 * A web application to manage taxi ridesharing using Java Servlets, Python, AngularJS and Machine Learning.
 * The application has 3 user roles: *Rider/Customer*, *Driver*, *Admin*.
-* Riders/Customers can book/cancel individual or shared taxi rides, cancel rides & rate drivers.
+* Riders/Customers can book individual or shared taxi rides, cancel rides & rate drivers.
 * Drivers can cancel rides & rate riders.
 * Riders can view data like day-wise booking and cancellation, rides taken from zip codes, rating etc. on their dashboard.
 * Drivers can view data like day-wise number of rides, day-wise earnings, zipcode-wise pickups & drops, rating etc. on their dashboard.
