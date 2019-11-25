@@ -82,5 +82,5 @@ if __name__ == "__main__":
     try:
         port = argv[1]
     except IndexError:
-        port = 5000
+        port = 5555
     app.run(host="localhost", port=port, debug=False, threaded=True)

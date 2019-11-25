@@ -200,7 +200,7 @@ Assuming you are currently in the **`RideShare`** folder
 $ python fare_estimation/estimate_fare_api.py
 ```
 
-*(Runs on port=5000. If port=5000 is not open/being used, then give a custom port using `python fare_estimation/estimate_fare_api.py 5555`)*
+*(Runs on port=555. Make sure port=5555 is free on your computer.)*
 
 #### 7. Start the Tomcat server
 
