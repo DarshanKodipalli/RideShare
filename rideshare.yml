@@ -1,0 +1,11 @@
+name: rideshare
+channels:
+  - defaults
+dependencies:
+  - python=3
+  - pip
+  - joblib
+  - pandas
+  - scikit-learn
+  - flask
+  - flask-cors
