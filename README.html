@@ -162,12 +162,21 @@
 <h3>
 <a id="user-content-deploying-the-application" class="anchor" href="#deploying-the-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deploying the application</h3>
 <h4>
-<a id="user-content-1-create-mysql-database-schema-and-populate-data" class="anchor" href="#1-create-mysql-database-schema-and-populate-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. Create MySQL Database Schema and Populate Data</h4>
+<a id="user-content-1-create-mysql-database-user-schema-and-populate-data" class="anchor" href="#1-create-mysql-database-user-schema-and-populate-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. Create MySQL Database User, Schema and Populate Data</h4>
 <p>Assuming that MySQL is installed and the server is running...</p>
-<p>Database dump file: <a href="server/rideshare_db_dump.sql">rideshare_db_dump.sql</a></p>
-<div class="highlight highlight-source-shell"><pre>$ mysql -u <span class="pl-k">&lt;</span>your-mysql-username<span class="pl-k">&gt;</span> -p <span class="pl-k">&lt;</span> server/rideshare_db_dump.sql
-Enter password:<span class="pl-k">?</span></pre></div>
-<p><em>(Make sure the mysql <code>bin</code> folder is added to PATH)</em></p>
+<ul>
+<li>
+<p>Create the RideShare MySQL User. (Login to mysql shell as root <code>$ mysql -u root -p</code>)</p>
+<div class="highlight highlight-source-sql"><pre>mysql<span class="pl-k">&gt;</span> CREATE USER <span class="pl-s"><span class="pl-pds">'</span>rideshareAdmin<span class="pl-pds">'</span></span>@<span class="pl-s"><span class="pl-pds">'</span>localhost<span class="pl-pds">'</span></span> IDENTIFIED BY <span class="pl-s"><span class="pl-pds">'</span>rd@123<span class="pl-pds">'</span></span>;
+mysql<span class="pl-k">&gt;</span> <span class="pl-k">GRANT</span> ALL PRIVILEGES <span class="pl-k">ON</span> <span class="pl-k">*</span> . <span class="pl-k">*</span> TO <span class="pl-s"><span class="pl-pds">'</span>rideshareAdmin<span class="pl-pds">'</span></span>@<span class="pl-s"><span class="pl-pds">'</span>localhost<span class="pl-pds">'</span></span>;
+mysql<span class="pl-k">&gt;</span> FLUSH PRIVILEGES;</pre></div>
+</li>
+<li>
+<p>Import the database schema and data from the dump file. (Database dump file: <a href="server/rideshare_db_dump.sql">rideshare_db_dump.sql</a>)</p>
+<div class="highlight highlight-source-shell"><pre>$ mysql -u rideshareAdmin -prd@123 <span class="pl-k">&lt;</span> server/rideshare_db_dump.sql</pre></div>
+</li>
+</ul>
+<p><em>(Make sure the mysql <code>bin</code> folder is in PATH)</em></p>
 <h4>
 <a id="user-content-2-enable-cross-origin-resource-sharing-cors-in-tomcat-server" class="anchor" href="#2-enable-cross-origin-resource-sharing-cors-in-tomcat-server" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. Enable <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" rel="nofollow">Cross-Origin Resource Sharing</a> (CORS) in Tomcat Server</h4>
 <p>Cross-Origin Resource Sharing (CORS) is a mechanism that uses additional HTTP headers to tell browsers to give a web application running at one origin, access to selected resources from a different origin. A web application executes a cross-origin HTTP request when it requests a resource that has a different origin (domain, protocol, or port) from its own.</p>
@@ -225,9 +234,12 @@ $ python -m pip install -U -r fare_estimation/requirements.txt</pre></div>
 <div class="highlight highlight-source-shell"><pre><span class="pl-c"><span class="pl-c">#</span> Install the javascript packages using npm</span>
 $ npm install</pre></div>
 <h4>
-<a id="user-content-5-copy-the-java-server-code-to-tomcats-webapps-folder" class="anchor" href="#5-copy-the-java-server-code-to-tomcats-webapps-folder" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. Copy the java server code to Tomcat's webapps folder</h4>
+<a id="user-content-5-copy-the-java-server-code--required-dependency-jar-files-to-tomcat" class="anchor" href="#5-copy-the-java-server-code--required-dependency-jar-files-to-tomcat" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. Copy the Java Server Code &amp; required dependency JAR files to Tomcat</h4>
+<p>Server Source Code Folder: <strong><a href="server/">rideshare</a></strong></p>
+<p>Dependency JAR Files: <strong><a href="server/rideshare/WEB-INF/lib/">lib</a></strong></p>
 <p>Assuming you are currently in the <strong><code>RideShare</code></strong> folder</p>
-<div class="highlight highlight-source-shell"><pre>$ cp -r server/rideshare <span class="pl-k">&lt;</span>path_to_tomcat_server_folder<span class="pl-k">&gt;</span>/webapps</pre></div>
+<div class="highlight highlight-source-shell"><pre>$ cp -rf server/rideshare <span class="pl-k">&lt;</span>path_to_tomcat_server_folder<span class="pl-k">&gt;</span>/webapps
+$ cp -f server/rideshare/lib/<span class="pl-k">*</span> <span class="pl-k">&lt;</span>path_to_tomcat_server_folder<span class="pl-k">&gt;</span>/lib</pre></div>
 <h4>
 <a id="user-content-6-start-python-server" class="anchor" href="#6-start-python-server" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>6. Start python server</h4>
 <p>Assuming you are currently in the <strong><code>RideShare</code></strong> folder</p>
@@ -261,7 +273,7 @@ $ npm install</pre></div>
 </h4>
 <hr>
 <h3>
-<a id="user-content-contributors" class="anchor" href="#contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributors</h3>
+<a id="user-content-contributors--team-4" class="anchor" href="#contributors--team-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributors :: Team 4</h3>
 <h4>
 <a id="user-content--darshan-kodipalli" class="anchor" href="#-darshan-kodipalli" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><g-emoji class="g-emoji" alias="man_technologist" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f468-1f4bb.png">👨‍💻</g-emoji> Darshan Kodipalli</h4>
 <h5>

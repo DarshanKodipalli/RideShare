@@ -52,9 +52,9 @@ public class GetAllDrivers extends HttpServlet {
             e.printStackTrace();
             throw new SQLException("Unable to instantiate JDBC Driver");
         }
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/RideShareDB?autoReconnect=true&useSSL=false", "root", "edenUbuntu");
+        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/RideShareDB?autoReconnect=true&useSSL=false", "rideshareAdmin", "rd@123");
     }
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
@@ -81,6 +81,6 @@ public class GetAllDrivers extends HttpServlet {
             e.printStackTrace();
             response.setStatus(500);
             printWriter.println(gson.toJson("error"));
-        } 
+        }
     }
 }

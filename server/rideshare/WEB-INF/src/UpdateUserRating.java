@@ -38,9 +38,9 @@ public class UpdateUserRating extends HttpServlet {
             e.printStackTrace();
             throw new SQLException("Unable to instantiate JDBC Driver");
         }
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/RideShareDB?autoReconnect=true&useSSL=false", "root", "edenUbuntu");
+        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/RideShareDB?autoReconnect=true&useSSL=false", "rideshareAdmin", "rd@123");
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
@@ -66,9 +66,9 @@ public class UpdateUserRating extends HttpServlet {
             connectDatabase();
             PreparedStatement pst;
             if(userRole.equals("driver")){
-                pst = connection.prepareStatement("update rides set driverRating=? where (customer=? and source=? and destination=?);");                
+                pst = connection.prepareStatement("update rides set driverRating=? where (customer=? and source=? and destination=?);");
             }else{
-                pst = connection.prepareStatement("update rides set userRating=? where (customer=? and source=? and destination=?);");                
+                pst = connection.prepareStatement("update rides set userRating=? where (customer=? and source=? and destination=?);");
             }
             pst.setString(1, userRating);
             pst.setString(2, username);
@@ -81,6 +81,6 @@ public class UpdateUserRating extends HttpServlet {
             e.printStackTrace();
             response.setStatus(500);
             printWriter.println(gson.toJson("error"));
-        } 
+        }
     }
 }

@@ -36,7 +36,7 @@ public class GetAllRides extends HttpServlet {
         String distance;
         String price;
         String dropzipcode;
-        String pickupzipcode; 
+        String pickupzipcode;
         String status;
         String userRating;
         String driverRating;
@@ -64,9 +64,9 @@ public class GetAllRides extends HttpServlet {
             e.printStackTrace();
             throw new SQLException("Unable to instantiate JDBC Driver");
         }
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/RideShareDB?autoReconnect=true&useSSL=false", "root", "edenUbuntu");
+        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/RideShareDB?autoReconnect=true&useSSL=false", "rideshareAdmin", "rd@123");
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
@@ -78,14 +78,14 @@ public class GetAllRides extends HttpServlet {
         JsonObject jsonObject =  Utility.getRequestJSON(request, gson);
         System.out.print(jsonObject);
         String username = jsonObject.get("username").getAsString();
-        String role = jsonObject.get("role").getAsString();        
+        String role = jsonObject.get("role").getAsString();
         try {
             connectDatabase();
             PreparedStatement pst;
             if(role.equals("driver")){
-                pst = connection.prepareStatement("select * from rides where driver=?;");                                
+                pst = connection.prepareStatement("select * from rides where driver=?;");
             }else{
-                pst = connection.prepareStatement("select * from rides where customer=?;");                
+                pst = connection.prepareStatement("select * from rides where customer=?;");
             }
             pst.setString(1, username);
             System.out.print(pst);
@@ -125,7 +125,7 @@ public class GetAllRides extends HttpServlet {
             e.printStackTrace();
             response.setStatus(500);
             printWriter.println(gson.toJson("error"));
-        } 
+        }
     }
 
     @Override
@@ -139,7 +139,7 @@ public class GetAllRides extends HttpServlet {
         try {
             connectDatabase();
             PreparedStatement pst;
-            pst = connection.prepareStatement("select * from rides;");                
+            pst = connection.prepareStatement("select * from rides;");
             System.out.print(pst);
             ResultSet rs = pst.executeQuery();
 
@@ -177,6 +177,6 @@ public class GetAllRides extends HttpServlet {
             e.printStackTrace();
             response.setStatus(500);
             printWriter.println(gson.toJson("error"));
-        } 
-    }    
+        }
+    }
 }

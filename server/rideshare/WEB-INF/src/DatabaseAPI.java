@@ -20,8 +20,8 @@ public class DatabaseAPI {
     public DatabaseAPI() {
         this.host = "127.0.0.1";
         this.port = 3306;
-        this.username = "root";
-        this.password = "root";
+        this.username = "rideshareAdmin";
+        this.password = "rd@123";
         this.database = "RideShareDB";
         this.dbURI = "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database+"?autoReconnect=true&useSSL=false";
     }
@@ -91,7 +91,7 @@ public class DatabaseAPI {
                 "    rating INT NOT NULL DEFAULT 0,\n" +
                 "    car VARCHAR(256) NOT NULL,\n" +
                 "    license VARCHAR(16)\n" +
-                "    car_image VARCHAR(256)\n" +                
+                "    car_image VARCHAR(256)\n" +
                 ");"
             );
 
@@ -115,7 +115,7 @@ public class DatabaseAPI {
                 "    dropzipcode INT DEFAULT 60616,\n" +
                 "    pickupzipcode INT DEFAULT 60616,\n" +
                 "    userRating INT DEFAULT 60616,\n" +
-                "    driverRating INT DEFAULT 60616,\n" +                
+                "    driverRating INT DEFAULT 60616,\n" +
                 "    FOREIGN KEY(customer) REFERENCES USERS(username) ON UPDATE CASCADE ON DELETE CASCADE,\n" +
                 "    FOREIGN KEY(driver) REFERENCES DRIVERS(username) ON UPDATE CASCADE ON DELETE CASCADE\n" +
                 ");"

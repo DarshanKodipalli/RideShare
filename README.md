@@ -71,18 +71,24 @@ From this dataset, we took 1 million records with only [Trip Miles, Trip Total, 
 
 ### Deploying the application
 
-#### 1. Create MySQL Database Schema and Populate Data
+#### 1. Create MySQL Database User, Schema and Populate Data
 
 Assuming that MySQL is installed and the server is running...
 
-Database dump file: [rideshare_db_dump.sql](server/rideshare_db_dump.sql)
+- Create the RideShare MySQL User. (Login to mysql shell as root `$ mysql -u root -p`)
 
-```bash
-$ mysql -u <your-mysql-username> -p < server/rideshare_db_dump.sql
-Enter password:?
-```
+    ```sql
+    mysql> CREATE USER 'rideshareAdmin'@'localhost' IDENTIFIED BY 'rd@123';
+    mysql> GRANT ALL PRIVILEGES ON * . * TO 'rideshareAdmin'@'localhost';
+    mysql> FLUSH PRIVILEGES;
+    ```
+- Import the database schema and data from the dump file. (Database dump file: [rideshare_db_dump.sql](server/rideshare_db_dump.sql))
 
-*(Make sure the mysql `bin` folder is added to PATH)*
+    ```bash
+    $ mysql -u rideshareAdmin -prd@123 < server/rideshare_db_dump.sql
+    ```
+
+*(Make sure the mysql `bin` folder is in PATH)*
 
 #### 2. Enable [Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) (CORS) in Tomcat Server
 
@@ -162,12 +168,17 @@ Then, assuming that you are currently inside the folder **`ui`** in RideShare an
 $ npm install
 ```
 
-#### 5. Copy the java server code to Tomcat's webapps folder
+#### 5. Copy the Java Server Code & required dependency JAR files to Tomcat
+
+Server Source Code Folder: **[rideshare](server/)**
+
+Dependency JAR Files: **[lib](server/rideshare/WEB-INF/lib/)**
 
 Assuming you are currently in the **`RideShare`** folder
 
 ```bash
-$ cp -r server/rideshare <path_to_tomcat_server_folder>/webapps
+$ cp -rf server/rideshare <path_to_tomcat_server_folder>/webapps
+$ cp -f server/rideshare/lib/* <path_to_tomcat_server_folder>/lib
 ```
 
 #### 6. Start python server
@@ -221,7 +232,7 @@ $ npm start
 
 -----
 
-### Contributors
+### Contributors :: Team 4
 
 #### 👨‍💻 Darshan Kodipalli
 

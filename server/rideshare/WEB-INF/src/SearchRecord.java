@@ -36,7 +36,7 @@ public class SearchRecord extends HttpServlet {
         String distance;
         String price;
         String dropzipcode;
-        String pickupzipcode; 
+        String pickupzipcode;
         String status;
         String userRating;
         String driverRating;
@@ -64,9 +64,9 @@ public class SearchRecord extends HttpServlet {
             e.printStackTrace();
             throw new SQLException("Unable to instantiate JDBC Driver");
         }
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/RideShareDB?autoReconnect=true&useSSL=false", "root", "edenUbuntu");
+        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/RideShareDB?autoReconnect=true&useSSL=false", "rideshareAdmin", "rd@123");
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
@@ -81,7 +81,7 @@ public class SearchRecord extends HttpServlet {
         try {
             connectDatabase();
             PreparedStatement pst;
-            pst = connection.prepareStatement("select * from rides where driver=?;");                
+            pst = connection.prepareStatement("select * from rides where driver=?;");
             pst.setString(1, username);
             System.out.print(pst);
             ResultSet rs = pst.executeQuery();
@@ -120,7 +120,7 @@ public class SearchRecord extends HttpServlet {
             e.printStackTrace();
             response.setStatus(500);
             printWriter.println(gson.toJson("error"));
-        } 
+        }
     }
 
     @Override
@@ -134,7 +134,7 @@ public class SearchRecord extends HttpServlet {
         try {
             connectDatabase();
             PreparedStatement pst;
-            pst = connection.prepareStatement("select * from rides;");                
+            pst = connection.prepareStatement("select * from rides;");
             System.out.print(pst);
             ResultSet rs = pst.executeQuery();
 
@@ -172,6 +172,6 @@ public class SearchRecord extends HttpServlet {
             e.printStackTrace();
             response.setStatus(500);
             printWriter.println(gson.toJson("error"));
-        } 
-    }    
+        }
+    }
 }
