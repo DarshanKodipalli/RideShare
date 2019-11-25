@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@agm/core": "^1.0.0",
+    "@agm/core": "1.0.0",
     "@angular/animations": "^6.1.10",
     "@angular/cdk": "^7.1.1",
     "@angular/common": "^6.1.0",
@@ -34,8 +34,8 @@
     "ng4-loading-spinner": "^1.2.3",
     "ngx-google-places-autocomplete": "^2.0.4",
     "ngx-spinner": "^8.0.3",
-    "rxjs": "^6.3.3",
-    "rxjs-compat": "^6.3.3",
+    "rxjs": "6.3.3",
+    "rxjs-compat": "6.3.3",
     "save": "^2.3.3",
     "sweetalert2": "^7.28.5",
     "zone.js": "~0.8.26"

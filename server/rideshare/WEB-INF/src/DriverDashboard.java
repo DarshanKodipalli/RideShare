@@ -80,7 +80,7 @@ public class DriverDashboard extends HttpServlet {
                 dropList.add(map);
             }
 
-            PreparedStatement pst4 = connection.prepareStatement("select count(*) as bookedOnCount, DATE_FORMAT(booked_on_date, '%e %b, %Y') as booked_on_date from rides where driver=? group by booked_on_date desc;");
+            PreparedStatement pst4 = connection.prepareStatement("select count(*) as bookedOnCount, DATE_FORMAT(booked_on_date, '%e %b, %Y') as booked_on_date from rides where driver=? group by booked_on_date order by bookedOnCount desc;");
             pst4.setString(1, username);
             ResultSet rs4 = pst4.executeQuery();
 
@@ -91,7 +91,7 @@ public class DriverDashboard extends HttpServlet {
                 bookedOnList.add(map);
             }
 
-            PreparedStatement pst5 = connection.prepareStatement("select sum(price) as wage, DATE_FORMAT(booked_on_date, '%e %b, %Y') as booked_on_date from rides where driver=? group by booked_on_date desc;");
+            PreparedStatement pst5 = connection.prepareStatement("select sum(price) as wage, DATE_FORMAT(booked_on_date, '%e %b, %Y') as booked_on_date from rides where driver=? group by booked_on_date;");
             pst5.setString(1, username);
             ResultSet rs5 = pst5.executeQuery();
 

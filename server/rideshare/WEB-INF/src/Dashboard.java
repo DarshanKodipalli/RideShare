@@ -83,7 +83,7 @@ public class Dashboard extends HttpServlet {
                 dropList.add(map);
             }
 
-            PreparedStatement pst3 = connection.prepareStatement("select avg(userRating) as rating, driver from rides where customer=? group by driver desc;");
+            PreparedStatement pst3 = connection.prepareStatement("select avg(userRating) as rating, driver from rides where customer=? group by driver order by rating desc;");
             pst3.setString(1, username);
             ResultSet rs3 = pst3.executeQuery();
             while(rs3.next()){
@@ -93,7 +93,7 @@ public class Dashboard extends HttpServlet {
                 rideTypeList.add(map);
             }
 
-            PreparedStatement pst4 = connection.prepareStatement("select count(*) as bookedOnCount, DATE_FORMAT(booked_on_date, '%e %b, %Y') as booked_on_date from rides where customer=? group by booked_on_date desc;");
+            PreparedStatement pst4 = connection.prepareStatement("select count(*) as bookedOnCount, DATE_FORMAT(booked_on_date, '%e %b, %Y') as booked_on_date from rides where customer=? group by booked_on_date order by bookedOnCount  desc;");
             pst4.setString(1, username);
             ResultSet rs4 = pst4.executeQuery();
             while(rs4.next()){
@@ -105,7 +105,7 @@ public class Dashboard extends HttpServlet {
                 bookedOnList.add(map);
             }
 
-            PreparedStatement pst5 = connection.prepareStatement("select count(*) as cancelledOn, DATE_FORMAT(cancelled_on_date, '%e %b, %Y') as cancelled_on_date from rides where customer=? and cancelled_on_date is not null group by cancelled_on_date desc;");
+            PreparedStatement pst5 = connection.prepareStatement("select count(*) as cancelledOn, DATE_FORMAT(cancelled_on_date, '%e %b, %Y') as cancelled_on_date from rides where customer=? and cancelled_on_date is not null group by cancelled_on_date order by cancelledOn desc;");
             pst5.setString(1, username);
             System.out.print(pst5);
             ResultSet rs5 = pst5.executeQuery();
@@ -117,7 +117,7 @@ public class Dashboard extends HttpServlet {
                 cancelledOnList.add(map);
             }
 
-            PreparedStatement pst6 = connection.prepareStatement("select count(*) as count, driver from rides where customer=? group by driver desc;");
+            PreparedStatement pst6 = connection.prepareStatement("select count(*) as count, driver from rides where customer=? group by driver order by `count` desc;");
             pst6.setString(1, username);
             ResultSet rs6 = pst6.executeQuery();
             while(rs6.next()){

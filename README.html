@@ -151,7 +151,7 @@
 <li><a href="https://docs.conda.io/en/latest/miniconda.html" rel="nofollow">Python &gt;= 3.7.5</a></li>
 <li>
 <a href="http://www.coreservlets.com/Apache-Tomcat-Tutorial/tomcat7-files/tomcat-7.0.34-preconfigured.zip" rel="nofollow">Tomcat Server 7.0.34</a> (with CORS filter enabled)</li>
-<li><a href="https://nodejs.org/en/" rel="nofollow">Node.js &gt;= 12.12.0</a></li>
+<li><a href="https://nodejs.org/dist/latest-v8.x/" rel="nofollow">Node.js == 8.16.2</a></li>
 <li><a href="https://dev.mysql.com/downloads/" rel="nofollow">MySQL &gt;= 8.0.18</a></li>
 <li>Java Dependencies: <strong><code>servlet-api.jar</code>, <code>mysql-jdbc-5-bin.jar</code>, <code>gson-2.6.2.jar</code></strong> (Already present in <strong><a href="server/rideshare/WEB-INF/lib/">lib</a></strong>)</li>
 <li>Python Dependencies: <strong><code>pandas</code>, <code>scikit-learn</code>, <code>joblib</code>, <code>flask</code>, <code>flask-cors</code></strong> (See <strong><a href="fare_estimation/requirements.txt">requirements.txt</a></strong>)</li>
@@ -174,7 +174,8 @@ mysql<span class="pl-k">&gt;</span> \q</pre></div>
 </li>
 <li>
 <p>Import the database schema and data from the dump file. (Database dump file: <a href="server/rideshare_db_dump.sql">rideshare_db_dump.sql</a>)</p>
-<div class="highlight highlight-source-shell"><pre>$ mysql -u rideshareAdmin -prd@123 <span class="pl-k">&lt;</span> server/rideshare_db_dump.sql</pre></div>
+<div class="highlight highlight-source-shell"><pre>$ mysql -u rideshareAdmin -prd@123 <span class="pl-k">&lt;</span> server/rideshare_db_dump.sql
+mysql: [Warning] Using a password on the <span class="pl-c1">command</span> line interface can be insecure.</pre></div>
 </li>
 </ul>
 <p><em>(Make sure the mysql <code>bin</code> folder is in PATH)</em></p>

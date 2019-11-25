@@ -61,7 +61,7 @@ From this dataset, we took 1 million records with only [Trip Miles, Trip Total, 
 - [Java >= 11.0.4](https://aws.amazon.com/corretto/)
 - [Python >= 3.7.5](https://docs.conda.io/en/latest/miniconda.html)
 - [Tomcat Server 7.0.34](http://www.coreservlets.com/Apache-Tomcat-Tutorial/tomcat7-files/tomcat-7.0.34-preconfigured.zip) (with CORS filter enabled)
-- [Node.js >= 12.12.0](https://nodejs.org/en/)
+- [Node.js == 8.16.2](https://nodejs.org/dist/latest-v8.x/)
 - [MySQL >= 8.0.18](https://dev.mysql.com/downloads/)
 - Java Dependencies: **`servlet-api.jar`, `mysql-jdbc-5-bin.jar`, `gson-2.6.2.jar`** (Already present in **[lib](server/rideshare/WEB-INF/lib/)**)
 - Python Dependencies: **`pandas`, `scikit-learn`, `joblib`, `flask`, `flask-cors`** (See **[requirements.txt](fare_estimation/requirements.txt)**)
