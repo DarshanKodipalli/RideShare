@@ -81,6 +81,7 @@ Assuming that MySQL is installed and the server is running...
     mysql> CREATE USER 'rideshareAdmin'@'localhost' IDENTIFIED BY 'rd@123';
     mysql> GRANT ALL PRIVILEGES ON * . * TO 'rideshareAdmin'@'localhost';
     mysql> FLUSH PRIVILEGES;
+    mysql> \q
     ```
 - Import the database schema and data from the dump file. (Database dump file: [rideshare_db_dump.sql](server/rideshare_db_dump.sql))
 
