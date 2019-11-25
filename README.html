@@ -169,7 +169,8 @@
 <p>Create the RideShare MySQL User. (Login to mysql shell as root <code>$ mysql -u root -p</code>)</p>
 <div class="highlight highlight-source-sql"><pre>mysql<span class="pl-k">&gt;</span> CREATE USER <span class="pl-s"><span class="pl-pds">'</span>rideshareAdmin<span class="pl-pds">'</span></span>@<span class="pl-s"><span class="pl-pds">'</span>localhost<span class="pl-pds">'</span></span> IDENTIFIED BY <span class="pl-s"><span class="pl-pds">'</span>rd@123<span class="pl-pds">'</span></span>;
 mysql<span class="pl-k">&gt;</span> <span class="pl-k">GRANT</span> ALL PRIVILEGES <span class="pl-k">ON</span> <span class="pl-k">*</span> . <span class="pl-k">*</span> TO <span class="pl-s"><span class="pl-pds">'</span>rideshareAdmin<span class="pl-pds">'</span></span>@<span class="pl-s"><span class="pl-pds">'</span>localhost<span class="pl-pds">'</span></span>;
-mysql<span class="pl-k">&gt;</span> FLUSH PRIVILEGES;</pre></div>
+mysql<span class="pl-k">&gt;</span> FLUSH PRIVILEGES;
+mysql<span class="pl-k">&gt;</span> \q</pre></div>
 </li>
 <li>
 <p>Import the database schema and data from the dump file. (Database dump file: <a href="server/rideshare_db_dump.sql">rideshare_db_dump.sql</a>)</p>
