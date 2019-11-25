@@ -87,6 +87,7 @@ Assuming that MySQL is installed and the server is running...
 
     ```bash
     $ mysql -u rideshareAdmin -prd@123 < server/rideshare_db_dump.sql
+    mysql: [Warning] Using a password on the command line interface can be insecure.
     ```
 
 *(Make sure the mysql `bin` folder is in PATH)*

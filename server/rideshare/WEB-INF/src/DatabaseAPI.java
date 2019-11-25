@@ -90,7 +90,7 @@ public class DatabaseAPI {
                 "    phone VARCHAR(16),\n" +
                 "    rating INT NOT NULL DEFAULT 0,\n" +
                 "    car VARCHAR(256) NOT NULL,\n" +
-                "    license VARCHAR(16)\n" +
+                "    license VARCHAR(16),\n" +
                 "    car_image VARCHAR(256)\n" +
                 ");"
             );
@@ -107,8 +107,8 @@ public class DatabaseAPI {
                 "    booked_on_date DATE  NULL ,\n" +
                 "    booked_on_time TIME  NULL ,\n" +
                 "    duration DOUBLE NOT NULL DEFAULT 0.0,\n" +
-                "    cancelled_on_date DATE  NULL ,\n" +
-                "    cancelled_on_time TIME  NULL ,\n" +
+                "    cancelled_on_date DATE  NULL,\n" +
+                "    cancelled_on_time TIME  NULL,\n" +
                 "    cancel_reason VARCHAR(64) DEFAULT NULL,\n" +
                 "    `distance` DOUBLE,\n" +
                 "    price DOUBLE,\n" +
