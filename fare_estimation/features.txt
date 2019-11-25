@@ -1,0 +1,6 @@
+Features for the Fare Estimation Machine Learning Model:
+--------------------------------------------------------
+Duration in Seconds (From Google Distance Matrix API)
+Distance in Miles (From Google Distance Matrix API)
+Shared Ride (True or False)
+Number of people sharing ride (if shared else 1)
