@@ -50,7 +50,7 @@ import { DriverDashboardComponent } from './driverDashboard/driverDashboard.comp
   ],
   imports: [
     AgmCoreModule.forRoot({
-      apiKey : 'AIzaSyBuJOssBr5xuExQvIigYzLG1nui4AF8TEg',
+      apiKey : '<Api-Key>',
       libraries : ['geometry'] 
     }),
     AgmDirectionModule,
